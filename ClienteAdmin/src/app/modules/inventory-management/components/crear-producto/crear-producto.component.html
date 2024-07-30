@@ -1,0 +1,65 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="titulo">CREAR PRODUCTO</span>
+                    <form class="mg-3" [formGroup]="productoForm" (ngSubmit)="agregarProducto()">
+
+                        <!-- Producto -->
+                        <div class="mb-3">
+                            <label for="producto" class="form-label">Nombre del Producto</label>
+                            <input id="producto" type="text" formControlName="producto"
+                                class="form-control form-control-lg" placeholder="Producto" required>
+                            <div class="text-danger" *ngIf="productoForm.get('producto')?.hasError('required') && productoForm.get('producto')?.touched">
+                                <span>El nombre del producto <Strong>es obligatorio</Strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Categoria -->
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoría</label>
+                            <input id="categoria" type="text" formControlName="categoria"
+                                class="form-control form-control-lg" placeholder="Categoría" required>
+                            <div class="text-danger" *ngIf="productoForm.get('producto')?.hasError('required') && productoForm.get('producto')?.touched">
+                                <span>La categoria <Strong>es obligatoria</Strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio</label>
+                            <input id="precio" type="number" formControlName="precio"
+                                class="form-control form-control-lg" placeholder="Precio" required>
+                            <div class="text-danger" *ngIf="productoForm.get('producto')?.hasError('required') && productoForm.get('producto')?.touched">
+                                <span>El precio del producto <Strong>es obligatorio</Strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Descripcion -->
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <input id="descripcion" type="text" formControlName="descripcion"
+                                class="form-control form-control-lg" placeholder="Descripción">
+                        </div>
+
+                        <!-- Imagen -->
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen</label>
+                            <input id="imagen" type="file"
+                                class="form-control form-control-lg" required accept="image/png, image/jpeg/gif" (change)="fotoseleccionada($event)">
+                                <div class="text-danger" *ngIf="productoForm.get('producto')?.hasError('required') && productoForm.get('producto')?.touched">
+                                    <span>La imagen del producto <Strong>es obligatoria</Strong></span>
+                                </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <button class="btn btn-secondary btn-lg float-start" (click)="listaProducto()">VOLVER</button>
+                            <button type="submit" [disabled]="productoForm.invalid" class="btn btn-success btn-lg float-end">ACEPTAR</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

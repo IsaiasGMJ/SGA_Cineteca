@@ -1,0 +1,43 @@
+<div class="container mt-5 body">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="titulo">LISTADO DE PRODUCTOS</span>
+                    <button class="btn btn-success float-end" routerLink="/producto/crear">NUEVO</button>
+                    <table class="table table-striped mt-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of listProductos">
+                                <td>{{ producto.nombre }}</td>
+                                <td>{{ producto.categoria }}</td>
+                                <td>{{ producto.precio }}</td>
+                                <td>{{ producto.descripcion }}</td>
+                                <td>
+                                    <button >
+                                        <i class="fa-solid fa-eye fas text-secondary"></i>
+                                    </button>
+                                    <button>
+                                        <i class="fa-solid fa-pen-to-square fas text-primary"></i>
+                                    </button>
+                                    <!-- <button (click)="eliminarProducto(producto._id)">
+                                        <i class="fa-solid fa-trash fas text-danger"></i>
+                                    </button> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
