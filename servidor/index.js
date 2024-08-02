@@ -24,7 +24,7 @@ https.createServer({
 
 app.get('/', function(req,res){
     res.send(`Hola mundo desde el puerto 4001 con certificacion autoSSQL ${PUERTO}`);
-    console.log('Peticion Get'); 
+    console.log('Peticion Get para ejemplo'); 
 });
 
 // Crear los directorios para imágenes si no existen
