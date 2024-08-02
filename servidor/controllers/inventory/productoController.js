@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs');
 const Producto = require('../../models/inventory/producto');
 
 // Obtener un producto por ID
@@ -30,17 +32,49 @@ exports.obtenerProductos = async (req, res) => {
 // Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
     try {
-        if (!req.body.nombre || !req.body.categoria || !req.body.precio || req.body.cantidad === undefined) {
-            return res.status(400).send('Faltan datos requeridos');
+        const { nombre, categoria, precio, cantidad, descripcion } = req.body;
+
+        // Imprimir req.body para depuración
+        console.log('req.body:', req.body);
+        console.log('req.files:', req.files);
+
+        // Validar datos requeridos
+        if (!nombre) {
+            return res.status(400).json({ msg: 'El nombre es requerido' });
+        }
+        if (!categoria) {
+            return res.status(400).json({ msg: 'La categoría es requerida' });
+        }
+        if (!precio) {
+            return res.status(400).json({ msg: 'El precio es requerido' });
+        }
+        if (cantidad === undefined) {
+            return res.status(400).json({ msg: 'La cantidad es requerida' });
         }
 
+        let imagenPath;
+        // Manejar la carga de la imagen si está presente
+        if (req.files && req.files.imagen) {
+            const imagen = req.files.imagen;
+            const uploadPath = path.join(__dirname, '../../public/images/productos', imagen.name);
+            imagen.mv(uploadPath, (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Hubo un error al subir la imagen');
+                }
+            });
+            imagenPath = `/public/images/productos/${imagen.name}`;
+        }
+
+        // Crear un nuevo producto
         const producto = new Producto({
-            nombre: req.body.nombre,
-            categoria: req.body.categoria,
-            precio: req.body.precio,
-            descripcion: req.body.descripcion,
-            imagen: req.body.imagen,
-            cantidad: req.body.cantidad
+            nombre,
+            categoria,
+            precio,
+            descripcion,
+            imagen: imagenPath,
+            cantidad,
+            estado: cantidad > 0 ? 'activo' : 'agotado'
         });
 
         await producto.save();
@@ -55,25 +89,32 @@ exports.crearProducto = async (req, res) => {
 // Actualizar un producto existente
 exports.actualizarProducto = async (req, res) => {
     try {
-        const { nombre, categoria, precio, descripcion, imagen, cantidad } = req.body;
+        const { nombre, categoria, precio, descripcion, cantidad } = req.body;
         let producto = await Producto.findById(req.params.id);
 
         if (!producto) {
             return res.status(404).json({ msg: 'Producto no encontrado' });
         }
 
+        if (req.files && req.files.imagen) {
+            const imagen = req.files.imagen;
+            const uploadPath = path.join(__dirname, '../../public/images/productos', imagen.name);
+            imagen.mv(uploadPath, (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Hubo un error al subir la imagen');
+                }
+            });
+            producto.imagen = `/public/images/productos/${imagen.name}`;
+        }
+
         producto.nombre = nombre;
         producto.categoria = categoria;
         producto.precio = precio;
         producto.descripcion = descripcion;
-        producto.imagen = imagen;
         producto.cantidad = cantidad;
 
-        if (cantidad === 0) {
-            producto.estado = 'agotado';
-        } else {
-            producto.estado = 'activo';
-        }
+        producto.estado = cantidad > 0 ? 'activo' : 'agotado';
 
         producto = await Producto.findByIdAndUpdate({ _id: req.params.id }, producto, { new: true }).populate('categoria');
         res.json(producto);
@@ -118,11 +159,7 @@ exports.actualizarStockProducto = async (req, res) => {
             return res.status(400).json({ msg: 'La cantidad no puede ser negativa' });
         }
 
-        if (producto.cantidad === 0) {
-            producto.estado = 'agotado';
-        } else {
-            producto.estado = 'activo';
-        }
+        producto.estado = producto.cantidad === 0 ? 'agotado' : 'activo';
 
         producto = await Producto.findByIdAndUpdate({ _id: req.params.id }, producto, { new: true }).populate('categoria');
         res.json(producto);

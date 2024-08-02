@@ -8,7 +8,7 @@ Base URL: `http://localhost:4000/api/categorias/`
 
 **Descripción:** Obtiene una lista de todas las categorías.
 
-**URL:** `http://localhost:4000/api/categorias/`
+**URL:** ``
 
 **Respuesta Exitosa:**
 ```` json

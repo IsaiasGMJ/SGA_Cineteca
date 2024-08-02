@@ -13,11 +13,17 @@ exports.crearCategoria = async (req, res) => {
             return res.status(400).json({ msg: 'La categoría ya existe' });
         }
 
+        let imagenPath;
+        // Manejar la carga de la imagen si está presente
+        if (req.file) {
+            imagenPath = `/public/images/categorias/${req.file.filename}`;
+        }
+
         // Crear nueva categoría
         const categoria = new Categoria({
             nombre,
             descripcion,
-            imagen: req.file ? `/public/images/${req.file.filename}` : undefined
+            imagen: imagenPath
         });
         await categoria.save();
 
@@ -65,20 +71,21 @@ exports.actualizarCategoria = async (req, res) => {
             return res.status(404).json({ msg: 'Categoría no encontrada' });
         }
 
-        categoria.nombre = nombre || categoria.nombre;
-        categoria.descripcion = descripcion || categoria.descripcion;
         if (req.file) {
             // Eliminar la imagen anterior si existe
             if (categoria.imagen) {
-                const oldPath = path.join(__dirname, '../../..', categoria.imagen);
+                const oldPath = path.join(__dirname, '../../../', categoria.imagen);
                 if (fs.existsSync(oldPath)) {
                     fs.unlinkSync(oldPath);
                 }
             }
-            categoria.imagen = `/public/images/${req.file.filename}`; // Actualizar la imagen si se proporciona una nueva
+            categoria.imagen = `/public/images/categorias/${req.file.filename}`;
         }
 
-        categoria = await Categoria.findOneAndUpdate({ _id: req.params.id }, categoria, {
+        categoria.nombre = nombre || categoria.nombre;
+        categoria.descripcion = descripcion || categoria.descripcion;
+
+        categoria = await Categoria.findByIdAndUpdate({ _id: req.params.id }, categoria, {
             new: true
         });
 
@@ -100,13 +107,13 @@ exports.eliminarCategoria = async (req, res) => {
 
         // Eliminar la imagen si existe
         if (categoria.imagen) {
-            const imagePath = path.join(__dirname, '../../..', categoria.imagen);
+            const imagePath = path.join(__dirname, '../../../', categoria.imagen);
             if (fs.existsSync(imagePath)) {
                 fs.unlinkSync(imagePath);
             }
         }
 
-        await Categoria.findOneAndDelete({ _id: req.params.id });
+        await Categoria.findByIdAndDelete({ _id: req.params.id });
         res.json({ msg: 'Categoría eliminada con éxito' });
     } catch (error) {
         console.error(error);

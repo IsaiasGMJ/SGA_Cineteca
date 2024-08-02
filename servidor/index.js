@@ -3,6 +3,9 @@ const conectarDB = require('./config/database');
 const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+
 dotenv.config();
 
 const app = express();
@@ -10,20 +13,28 @@ const app = express();
 // Conectar a la base de datos
 conectarDB();
 
-// Crear el directorio para imágenes si no existe
-const imagePath = path.join(__dirname, 'public', 'images');
-if (!fs.existsSync(imagePath)) {
-    fs.mkdirSync(imagePath, { recursive: true });
+// Crear los directorios para imágenes si no existen
+const categoriaImagePath = path.join(__dirname, 'public', 'images', 'categorias');
+if (!fs.existsSync(categoriaImagePath)) {
+    fs.mkdirSync(categoriaImagePath, { recursive: true });
+}
+const productoImagePath = path.join(__dirname, 'public', 'images', 'productos');
+if (!fs.existsSync(productoImagePath)) {
+    fs.mkdirSync(productoImagePath, { recursive: true });
 }
 
 // Middleware para parsear JSON
 app.use(express.json());
 
+// Middleware para manejar uploads de archivos
+app.use(fileUpload());
+
 // Habilitar CORS
-app.use(require('cors')());
+app.use(cors());
 
 // Servir archivos estáticos (imágenes)
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public/categorias', express.static(categoriaImagePath));
+app.use('/public/productos', express.static(productoImagePath));
 
 // Rutas
 app.use('/api/productos', require('./routes/inventory/productoRoutes'));
