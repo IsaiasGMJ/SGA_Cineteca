@@ -1,0 +1,75 @@
+### Obtener todos los usuarios
+GET http://localhost:4000/api/usuarios
+Content-Type: application/json
+
+###
+
+### Obtener un usuario por ID
+GET http://localhost:4000/api/usuarios/66bbc64ec5d07458e5610223
+Content-Type: application/json
+
+###
+
+### Crear un nuevo usuario
+POST http://localhost:4000/api/usuarios
+Content-Type: application/json
+
+{
+  "username": "nuevo_usuario",
+  "email": "usuario@example.com",
+  "password": "password123",
+  "role": "admin"
+}
+
+###
+
+### Actualizar email y role del usuario
+PUT http://localhost:4000/api/usuarios/{{user_id}}
+Content-Type: application/json
+
+{
+  "email": "nuevo_email@example.com",
+  "role": "user"
+}
+
+###
+
+### Actualizar solo la contraseña del usuario
+PUT http://localhost:4000/api/usuarios/66bbcea52f596d56a7786cb1/password
+Content-Type: application/json
+
+{
+  "password": "isaiasGMJ"
+}
+
+###
+
+### Eliminar un usuario
+DELETE http://localhost:4000/api/usuarios/66bbcea52f596d56a7786cb1
+Content-Type: application/json
+
+###
+
+### Inicio de sesión
+POST http://localhost:4000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "usuario": "usuario@example.com",
+  "password": "isaiasGMJ"
+}
+
+###
+
+### Registrar un nuevo usuario (sin JWT)
+POST http://localhost:3000/api/usuarios/registrar
+Content-Type: application/json
+
+{
+  "username": "nuevo_usuario",
+  "email": "usuario@example.com",
+  "password": "password123",
+  "role": "user"
+}
+
+###
