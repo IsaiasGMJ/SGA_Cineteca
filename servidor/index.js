@@ -35,8 +35,9 @@ app.use(express.json());
 app.use(cors());
 
 // Rutas
-app.use('/api/productos', require('./routes/inventory/productoRoutes'));
-app.use('/api/categorias', require('./routes/inventory/categoriaRoutes'));
+app.use('/api/productos', require('./routes/productoRoutes'));
+app.use('/api/categorias', require('./routes/categoriaRoutes'));
+app.use('/api/usuarios', require('./routes/userRoutes'));
 
 // Ruta de ejemplo
 app.get('/', (req, res) => {
