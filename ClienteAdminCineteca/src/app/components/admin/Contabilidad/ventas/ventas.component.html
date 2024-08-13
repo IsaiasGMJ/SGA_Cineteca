@@ -1,0 +1,42 @@
+<div class="d-flex">
+    <app-admin-sidebar></app-admin-sidebar>
+    <div class="content p-4">
+        <router-outlet>
+<h1>Contabilidad (ventas)</h1>
+<button class="btn-primary" [routerLink]="['/informe-ventas']">Informe de ventas</button>
+
+<div class="container my-5">
+    <h3 class="mb-4">Registro de Ventas</h3>
+    <table class="table table-striped table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Producto A</td>
+          <td>10</td>
+          <td>$100.00</td>
+          <td>2024-08-13</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Producto B</td>
+          <td>5</td>
+          <td>$50.00</td>
+          <td>2024-08-14</td>
+        </tr>
+        <!-- Agrega más filas según sea necesario -->
+      </tbody>
+    </table>
+  </div>
+        
+</router-outlet>
+    </div>
+  </div>

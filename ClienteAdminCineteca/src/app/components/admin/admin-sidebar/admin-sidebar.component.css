@@ -1,0 +1,25 @@
+.bg-light {
+    background-color: #f8f9fa !important;
+  }
+  
+  .nav-pills .nav-link {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .nav-pills {
+    background-color: #f8f9fa;
+  }
+  
+  .nav-link:hover {
+    background-color: #5ea1c7;
+  }
+  
+  .dropdown-menu {
+    min-width: 150px;
+  }
+  
+  .dropdown-item {
+    color: #333;
+  }
+  
