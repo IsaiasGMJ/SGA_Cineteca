@@ -1,6 +1,12 @@
 const Categoria = require('../models/categoria');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config({ path: 'variables.env' });
+
+// Función para construir la URL completa de la imagen
+const asset = (path) => {
+    return `${process.env.BASE_URL}${path}`;
+};
 
 // Crear nueva categoría con imagen
 exports.crearCategoria = async (req, res) => {
@@ -16,7 +22,7 @@ exports.crearCategoria = async (req, res) => {
         let imagenPath = '';
         // Manejar la carga de la imagen si está presente
         if (req.file) {
-            imagenPath = `/public/images/categorias/${req.file.filename}`;
+            imagenPath = `/images/categorias/${req.file.filename}`;
         }
 
         // Crear nueva categoría
@@ -38,7 +44,14 @@ exports.crearCategoria = async (req, res) => {
 exports.obtenerCategorias = async (req, res) => {
     try {
         const categorias = await Categoria.find();
-        res.json(categorias);
+
+        // Modificar la URL de la imagen para incluir la URL completa
+        const categoriasConUrl = categorias.map(categoria => ({
+            ...categoria._doc,
+            imagen: categoria.imagen ? asset(categoria.imagen) : null
+        }));
+
+        res.json(categoriasConUrl);
     } catch (error) {
         console.error(error);
         res.status(500).send('Hubo un error');
@@ -53,6 +66,12 @@ exports.obtenerCategoria = async (req, res) => {
         if (!categoria) {
             return res.status(404).json({ msg: 'Categoría no encontrada' });
         }
+
+        // Modificar la URL de la imagen para incluir la URL completa
+        categoria = {
+            ...categoria._doc,
+            imagen: categoria.imagen ? asset(categoria.imagen) : null
+        };
 
         res.json(categoria);
     } catch (error) {
@@ -79,7 +98,7 @@ exports.actualizarCategoria = async (req, res) => {
                     fs.unlinkSync(oldPath);
                 }
             }
-            categoria.imagen = `/public/images/categorias/${req.file.filename}`;
+            categoria.imagen = `images/categorias/${req.file.filename}`;
         }
 
         categoria.nombre = nombre || categoria.nombre;
@@ -88,6 +107,12 @@ exports.actualizarCategoria = async (req, res) => {
         categoria = await Categoria.findByIdAndUpdate({ _id: req.params.id }, categoria, {
             new: true
         });
+
+        // Modificar la URL de la imagen para incluir la URL completa
+        categoria = {
+            ...categoria._doc,
+            imagen: categoria.imagen ? asset(categoria.imagen) : null
+        };
 
         res.json(categoria);
     } catch (error) {

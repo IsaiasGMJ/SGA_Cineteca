@@ -16,12 +16,12 @@ conectarDB();
 const categoriaImagePath = path.join(__dirname, 'public', 'images', 'categorias');
 const productoImagePath = path.join(__dirname, 'public', 'images', 'productos');
 
-if (!fs.existsSync(categoriaImagePath)) {
-    fs.mkdirSync(categoriaImagePath, { recursive: true });
-}
-
 if (!fs.existsSync(productoImagePath)) {
     fs.mkdirSync(productoImagePath, { recursive: true });
+}
+
+if (!fs.existsSync(categoriaImagePath)) {
+    fs.mkdirSync(categoriaImagePath, { recursive: true });
 }
 
 // Servir archivos estáticos (imágenes)
@@ -38,6 +38,7 @@ app.use(cors());
 app.use('/api/productos', require('./routes/productoRoutes'));
 app.use('/api/categorias', require('./routes/categoriaRoutes'));
 app.use('/api/usuarios', require('./routes/userRoutes'));
+app.use('/api/carrito', require('./routes/ventaRoutes'));
 
 // Ruta de ejemplo
 app.get('/', (req, res) => {
