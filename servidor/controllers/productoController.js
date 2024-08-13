@@ -1,6 +1,12 @@
 const path = require('path');
 const fs = require('fs');
 const Producto = require('../models/producto');
+require('dotenv').config({ path: 'variables.env' });
+
+// Función para construir la URL completa de la imagen
+const asset = (path) => {
+    return `${process.env.BASE_URL || 'http://localhost:4000'}${path}`;
+};
 
 // Obtener un producto por ID
 exports.obtenerProducto = async (req, res) => {
@@ -9,6 +15,11 @@ exports.obtenerProducto = async (req, res) => {
 
         if (!producto) {
             return res.status(404).json({ msg: 'No existe el producto' });
+        }
+
+        // Convertir la ruta de la imagen a una URL completa
+        if (producto.imagen) {
+            producto.imagen = asset(producto.imagen);
         }
 
         res.json(producto);
@@ -22,7 +33,16 @@ exports.obtenerProducto = async (req, res) => {
 exports.obtenerProductos = async (req, res) => {
     try {
         const productos = await Producto.find({ estado: 'activo' }).populate('categoria');
-        res.json(productos);
+
+        // Convertir las rutas de las imágenes a URLs completas
+        const productosConUrl = productos.map(producto => {
+            if (producto.imagen) {
+                producto.imagen = asset(producto.imagen);
+            }
+            return producto;
+        });
+
+        res.json(productosConUrl);
     } catch (error) {
         console.error(error);
         res.status(500).send('Hubo un error');
@@ -48,7 +68,7 @@ exports.crearProducto = async (req, res) => {
         // Construir el path de la imagen si existe
         let imagenPath = '';
         if (req.file) {
-            imagenPath = `/images/productos/${req.file.filename}`; // Corrigiendo el path
+            imagenPath = `/images/productos/${req.file.filename}`;
         }
 
         // Crear un nuevo producto
@@ -63,9 +83,15 @@ exports.crearProducto = async (req, res) => {
         });
 
         await producto.save();
+
+        // Añadir la URL completa de la imagen
+        if (producto.imagen) {
+            producto.imagen = asset(producto.imagen);
+        }
+
         res.status(201).json(producto);
     } catch (error) {
-        console.error(error);
+        console.error('Error al crear el producto:', error.message);
         res.status(500).send('Hubo un error');
     }
 };
@@ -92,13 +118,18 @@ exports.actualizarProducto = async (req, res) => {
         producto.estado = producto.cantidad > 0 ? 'activo' : 'agotado';
 
         producto = await Producto.findByIdAndUpdate(req.params.id, producto, { new: true }).populate('categoria');
+
+        // Añadir la URL completa de la imagen
+        if (producto.imagen) {
+            producto.imagen = asset(producto.imagen);
+        }
+
         res.json(producto);
     } catch (error) {
         console.error(error);
         res.status(500).send('Hubo un error');
     }
 };
-
 // Actualizar el estado de un producto
 exports.cambiarEstadoProducto = async (req, res) => {
     try {

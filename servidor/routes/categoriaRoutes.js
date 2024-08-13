@@ -7,7 +7,7 @@ const path = require('path');
 // Configuración de Multer para categorías
 const storageCategorias = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../../public/images/categorias'));
+        cb(null, path.join(__dirname, '../public/images/categorias'));
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);

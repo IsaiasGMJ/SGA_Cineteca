@@ -24,7 +24,7 @@ Content-Type: application/json
 ###
 
 ### Actualizar email y role del usuario
-PUT http://localhost:4000/api/usuarios/{{user_id}}
+PUT http://localhost:4000/api/usuarios/66bbcea52f596d56a7786cb1/password
 Content-Type: application/json
 
 {
