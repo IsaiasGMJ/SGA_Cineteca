@@ -34,36 +34,21 @@ exports.crearProducto = async (req, res) => {
     try {
         const { nombre, categoria, precio, cantidad, descripcion } = req.body;
 
-        // Imprimir req.body para depuración
-        console.log('req.body:', req.body);
-        console.log('req.files:', req.files);
+        // Verificar si el producto ya existe
+        let productoExistente = await Producto.findOne({ nombre });
+        if (productoExistente) {
+            return res.status(400).json({ msg: 'El producto ya existe' });
+        }
 
         // Validar datos requeridos
-        if (!nombre) {
-            return res.status(400).json({ msg: 'El nombre es requerido' });
-        }
-        if (!categoria) {
-            return res.status(400).json({ msg: 'La categoría es requerida' });
-        }
-        if (!precio) {
-            return res.status(400).json({ msg: 'El precio es requerido' });
-        }
-        if (cantidad === undefined) {
-            return res.status(400).json({ msg: 'La cantidad es requerida' });
+        if (!nombre || !categoria || !precio || cantidad === undefined) {
+            return res.status(400).json({ msg: 'Todos los campos son requeridos' });
         }
 
-        let imagenPath;
-        // Manejar la carga de la imagen si está presente
-        if (req.files && req.files.imagen) {
-            const imagen = req.files.imagen;
-            const uploadPath = path.join(__dirname, '../../public/images/productos', imagen.name);
-            imagen.mv(uploadPath, (err) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).send('Hubo un error al subir la imagen');
-                }
-            });
-            imagenPath = `/public/images/productos/${imagen.name}`;
+        // Construir el path de la imagen si existe
+        let imagenPath = '';
+        if (req.file) {
+            imagenPath = `/images/productos/${req.file.filename}`; // Corrigiendo el path
         }
 
         // Crear un nuevo producto
@@ -78,8 +63,7 @@ exports.crearProducto = async (req, res) => {
         });
 
         await producto.save();
-
-        res.status(201).send(producto);
+        res.status(201).json(producto);
     } catch (error) {
         console.error(error);
         res.status(500).send('Hubo un error');
@@ -96,27 +80,18 @@ exports.actualizarProducto = async (req, res) => {
             return res.status(404).json({ msg: 'Producto no encontrado' });
         }
 
-        if (req.files && req.files.imagen) {
-            const imagen = req.files.imagen;
-            const uploadPath = path.join(__dirname, '../../public/images/productos', imagen.name);
-            imagen.mv(uploadPath, (err) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).send('Hubo un error al subir la imagen');
-                }
-            });
-            producto.imagen = `/public/images/productos/${imagen.name}`;
+        if (req.file) {
+            producto.imagen = `/images/productos/${req.file.filename}`; // Corrigiendo el path
         }
 
-        producto.nombre = nombre;
-        producto.categoria = categoria;
-        producto.precio = precio;
-        producto.descripcion = descripcion;
-        producto.cantidad = cantidad;
+        producto.nombre = nombre || producto.nombre;
+        producto.categoria = categoria || producto.categoria;
+        producto.precio = precio || producto.precio;
+        producto.descripcion = descripcion || producto.descripcion;
+        producto.cantidad = cantidad || producto.cantidad;
+        producto.estado = producto.cantidad > 0 ? 'activo' : 'agotado';
 
-        producto.estado = cantidad > 0 ? 'activo' : 'agotado';
-
-        producto = await Producto.findByIdAndUpdate({ _id: req.params.id }, producto, { new: true }).populate('categoria');
+        producto = await Producto.findByIdAndUpdate(req.params.id, producto, { new: true }).populate('categoria');
         res.json(producto);
     } catch (error) {
         console.error(error);

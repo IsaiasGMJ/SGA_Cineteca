@@ -13,7 +13,7 @@ exports.crearCategoria = async (req, res) => {
             return res.status(400).json({ msg: 'La categoría ya existe' });
         }
 
-        let imagenPath;
+        let imagenPath = '';
         // Manejar la carga de la imagen si está presente
         if (req.file) {
             imagenPath = `/public/images/categorias/${req.file.filename}`;
