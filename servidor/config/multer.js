@@ -1,33 +1,30 @@
 const multer = require('multer');
 const path = require('path');
 
-// Configuración de almacenamiento
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/images'); // Directorio de destino
+        cb(null, path.join(__dirname, '../../public/images/productos'));
     },
     filename: function (req, file, cb) {
-        cb(null, `${Date.now()}${path.extname(file.originalname)}`); // Nombre del archivo
+        cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
 
-// Filtro de archivos
 const fileFilter = (req, file, cb) => {
     const filetypes = /jpeg|jpg|png|gif/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
     if (mimetype && extname) {
-        return cb(null, true);
+        cb(null, true);
     } else {
         cb('Error: Solo imágenes (jpeg, jpg, png, gif)');
     }
 };
 
-// Inicialización de multer
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 1024 * 1024 * 5 }, // Límite de 5MB
+    limits: { fileSize: 1024 * 1024 * 5 }, // 5MB
     fileFilter: fileFilter
 });
 

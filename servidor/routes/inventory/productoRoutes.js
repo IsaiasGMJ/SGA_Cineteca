@@ -1,14 +1,43 @@
 const express = require('express');
 const router = express.Router();
 const productoController = require('../../controllers/inventory/productoController');
-// const { authMiddleware } = require('../../middlewares/authMiddleware');
+const multer = require('multer');
+const path = require('path');
 
-// api/productos
+// Configuración de Multer para productos
+const storageCategorias = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, '../../public/images/productos'));
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const fileFilterCategorias = (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (mimetype && extname) {
+        cb(null, true);
+    } else {
+        cb('Error: Solo imágenes (jpeg, jpg, png, gif)');
+    }
+};
+
+const uploadProductos = multer({
+    storage: storageCategorias,
+    limits: { fileSize: 1024 * 1024 * 5 }, // 5MB
+    fileFilter: fileFilterCategorias
+});
+
+// Rutas para productos
 router.get('/', productoController.obtenerProductos);
 router.get('/:id', productoController.obtenerProducto);
-router.post('/', productoController.crearProducto);
-router.put('/:id', productoController.actualizarProducto);
+router.post('/', uploadProductos.single('imagen'), productoController.crearProducto);
+router.put('/:id', uploadProductos.single('imagen'), productoController.actualizarProducto);
 router.patch('/:id/estado', productoController.cambiarEstadoProducto);
-router.patch('/:id/stock', productoController.actualizarStockProducto); // Nueva ruta para actualizar el stock
+router.patch('/:id/stock', productoController.actualizarStockProducto);
 
 module.exports = router;
