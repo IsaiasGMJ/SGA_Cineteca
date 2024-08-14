@@ -15,8 +15,8 @@ POST http://localhost:4000/api/usuarios
 Content-Type: application/json
 
 {
-  "username": "nuevo_usuario",
-  "email": "usuario@example.com",
+  "username": "nuevousasduario",
+  "email": "admn@example.com",
   "password": "password123",
   "role": "admin"
 }
@@ -62,12 +62,12 @@ Content-Type: application/json
 ###
 
 ### Registrar un nuevo usuario (sin JWT)
-POST http://localhost:3000/api/usuarios/registrar
+POST http://localhost:4000/api/usuarios/registrar
 Content-Type: application/json
 
 {
-  "username": "nuevo_usuario",
-  "email": "usuario@example.com",
+  "username": "nuevousuario",
+  "email": "usio@example.com",
   "password": "password123",
   "role": "user"
 }

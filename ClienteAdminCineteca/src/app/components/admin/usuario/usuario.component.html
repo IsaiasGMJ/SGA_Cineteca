@@ -1,38 +1,63 @@
 <div class="d-flex">
-    <app-admin-sidebar></app-admin-sidebar>
-    <div class="content p-4">
-        <router-outlet>
-            <table class="table align-middle mb-0 bg-white">
-                <thead class="bg-light">
-                  <tr>
-                    <th>Datos basicos</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="ms-3">
-                          <p class="fw-bold mb-1">nombre</p>
-                          <p class="text-muted mb-0">email</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>role</td>
-                    <td>
-                      <button type="button" class="btn-primary">
-                        Editar
-                      </button>
-                      <button type="button" class="btn-primary" >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              
-      </router-outlet>
+  <app-admin-sidebar></app-admin-sidebar>
+  <div class="content p-4">
+    <div class="mb-4">
+      <h2>Gestión de Usuarios</h2>
+      <!-- Formulario para crear un nuevo usuario -->
+      <form (ngSubmit)="crearUsuario()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de Usuario</label>
+          <input type="text" id="username" class="form-control" [(ngModel)]="nuevoUsuario.username" name="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" [(ngModel)]="nuevoUsuario.email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" id="password" class="form-control" [(ngModel)]="nuevoUsuario.password" name="password" required>
+        </div>
+        <div class="mb-3">
+          <label for="role" class="form-label">Rol</label>
+          <select id="role" class="form-select" [(ngModel)]="nuevoUsuario.role" name="role">
+            <option value="user">Usuario</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+      </form>
     </div>
+
+    <table class="table align-middle mb-0 bg-white">
+      <thead class="bg-light">
+        <tr>
+          <th>Datos Básicos</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="ms-3">
+                <p class="fw-bold mb-1">{{ usuario.username }}</p>
+                <p class="text-muted mb-0">{{ usuario.email }}</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <select class="form-select" [(ngModel)]="usuario.role" (change)="editarUsuario(usuario)">
+              <option value="user">Usuario</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="editarUsuario(usuario)">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="eliminarUsuario(usuario._id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>
