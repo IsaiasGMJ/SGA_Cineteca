@@ -1,0 +1,54 @@
+<div class="container">
+    <h2>Actualizar Producto</h2>
+
+    <form (ngSubmit)="actualizarProducto()" #productoForm="ngForm">
+
+        <div class="form-group">
+            <label for="nombre">Nombre del Producto</label>
+            <input type="text" id="nombre" class="form-control" [(ngModel)]="producto.nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <input type="text" id="categoria" class="form-control" [(ngModel)]="producto.categoria" name="categoria"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="precio">Precio</label>
+            <input type="number" id="precio" class="form-control" [(ngModel)]="producto.precio" name="precio" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" id="cantidad" class="form-control" [(ngModel)]="producto.cantidad" name="cantidad"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" class="form-control" [(ngModel)]="producto.descripcion"
+                name="descripcion"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="estado">Estado</label>
+            <select id="estado" class="form-control" [(ngModel)]="producto.estado" name="estado">
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+                <option value="agotado">Agotado</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="imagen">Imagen</label>
+            <input type="text" id="imagen" class="form-control" [(ngModel)]="producto.imagen" name="imagen"
+                placeholder="URL de la imagen">
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid">
+            Actualizar Producto
+        </button>
+
+    </form>
+</div>
