@@ -1,0 +1,38 @@
+### Agregar un producto al carrito
+POST http://localhost:4000/api/carrito/agregar
+Content-Type: application/json
+
+{
+    "userId": "66bbcea52f596d56a7786cb1",
+    "productoId": "66bafde43ba72ba9029f889e",
+    "cantidad": 3
+}
+
+### Ver el carrito de un usuario
+GET http://localhost:4000/api/carrito/ver/66bbcea52f596d56a7786cb1
+Content-Type: application/json
+
+### Eliminar un producto del carrito
+DELETE http://localhost:4000/api/carrito/eliminar/66bc0cbe417efa48a7443e27
+Content-Type: application/json
+
+{
+    "productoId": "66bafde43ba72ba9029f889e"
+}
+
+### Realizar una venta
+POST http://localhost:4000/api/carrito/vender
+Content-Type: application/json
+
+{
+    "userId": "66bafde43ba72ba9029f889e",
+}
+
+
+### Obtener todas las ventas
+GET http://localhost:4000/api/carrito/ventas
+Content-Type: application/json
+
+### Obtener una venta por ID
+GET http://localhost:4000/api/carrito/ventas/66bbf25f417efa48a7443deb
+Content-Type: application/json
