@@ -1,0 +1,48 @@
+<router-outlet>
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 250px;">
+        <a [routerLink]="['/admin']" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+          <span class="fs-4">Cineteca Administracion</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a [routerLink]="['/ventas']" class="nav-link link-dark" aria-current="page">
+              <i class="fas fa-home me-2"></i> Contabilidad
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/usuarios']" class="nav-link link-dark">
+              <i class="fas fa-users me-2"></i> Usuarios
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/inventario']" class="nav-link link-dark">
+              <i class="fas fa-chart-line me-2"></i> Inventario
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/productos']" class="nav-link link-dark">
+              <i class="fas fa-cog me-2"></i> Productos
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/menu']" class="nav-link link-dark">
+              <i class="fas fa-cog me-2"></i> Menu
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+            <strong>Opciones</strong>
+          </a>
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser">
+            <li><a class="dropdown-item" [routerLink]="['/admin']">Profile</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/admin']">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="Logout()">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+      
+</router-outlet>

@@ -1,0 +1,24 @@
+<router-outlet>
+<div class="container my-5">
+<div class="row justify-content-center">
+<div class="col-md-6">
+    <h1 class="row justify-content-center">SGA Cineteca</h1>
+    <h1 class="row justify-content-center" >Autenticación</h1>
+    <form>
+    <!-- Email input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="email" id="form1Example1" class="form-control" />
+      <label class="form-label" for="form1Example1">Correo electronico</label>
+    </div>
+    <!-- Password input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="password" id="form1Example2" class="form-control" />
+      <label class="form-label" for="form1Example2">Contraseña</label>
+    </div> 
+    <!-- Submit button -->
+    <button  type="submit" class="btn btn-primary" (click)="Fakelogin()">Iniciar sesión</button>
+  </form>
+</div>
+</div>
+</div>
+</router-outlet>
