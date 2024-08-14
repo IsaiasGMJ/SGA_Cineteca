@@ -6,8 +6,24 @@
     <div class="container my-5">
       <h3 class="mb-4">Gestión de inventario</h3>
 
-      <!-- Formulario para agregar o editar productos
-       -->
+      <!--Formulario para agregar o editar productos-->
+      <form class="mb-4" (ngSubmit)="crearProducto()">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="productName" class="form-label">Nombre del artículo</label>
+            <input type="text" class="form-control" id="productName" placeholder="Nombre del producto"
+              [(ngModel)]="nuevoProducto.nombre" name="nombre" required>
+          </div>
+          <div class="col-md-4">
+            <label for="productPrice" class="form-label">Precio</label>
+            <input type="number" class="form-control" id="productPrice" placeholder="Precio"
+              [(ngModel)]="nuevoProducto.precio" name="precio" required>
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Agregar/Editar artículo</button>
+          </div>
+        </div>
+      </form>
 
       <!-- Table and paginator wrapper -->
       <div class="table-responsive">

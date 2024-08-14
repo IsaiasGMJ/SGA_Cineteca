@@ -7,7 +7,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-
+import { Producto } from '../../../../model/producto.model';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-inventario',
   standalone: true,
@@ -17,7 +18,8 @@ import { MatTableModule } from '@angular/material/table';
     RouterLink,
     AdminSidebarComponent,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule 
   ],
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.css']
@@ -25,6 +27,8 @@ import { MatTableModule } from '@angular/material/table';
 export class InventarioComponent implements AfterViewInit {
   displayedColumns: string[] = ['id', 'nombre', 'categoria', 'precio', 'descripcion', 'cantidad', 'imagen', 'acciones'];
   dataSource = new MatTableDataSource<any>(); // Ajusta el tipo según tu interfaz de producto
+
+  nuevoProducto: Producto = { nombre: '', categoria: '', precio: 0, cantidad: 0 };
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -52,6 +56,18 @@ export class InventarioComponent implements AfterViewInit {
       },
       (error) => {
         console.error('Error al obtener productos:', error);
+      }
+    );
+  }
+
+  crearProducto(): void {
+    this.productoService.crearProducto(this.nuevoProducto).subscribe(
+      (response) => {
+        console.log('Producto creado:', response);
+        this.obtenerProductos(); // Actualiza la lista de productos después de crear uno nuevo
+      },
+      (error) => {
+        console.error('Error al crear producto:', error);
       }
     );
   }

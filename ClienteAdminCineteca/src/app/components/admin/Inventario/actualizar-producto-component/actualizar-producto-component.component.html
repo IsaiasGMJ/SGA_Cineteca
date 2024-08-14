@@ -1,54 +1,69 @@
-<div class="container">
-    <h2>Actualizar Producto</h2>
+<div class="d-flex">
+    <app-admin-sidebar></app-admin-sidebar>
+    <div class="content p-4">
+        <router-outlet></router-outlet>
+        <h2>Gestión de productos</h2>
+        <div class="container my-5">
+            <h3 class="mb-4">Actualizar Producto: {{ producto.nombre }}</h3>
 
-    <form (ngSubmit)="actualizarProducto()" #productoForm="ngForm">
+            <form (ngSubmit)="actualizarProducto()" #productoForm="ngForm" class="mb-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="nombre" class="form-label">Nombre del Producto</label>
+                        <input type="text" id="nombre" class="form-control" [(ngModel)]="producto.nombre" name="nombre"
+                            placeholder="Nombre del producto" required>
+                    </div>
 
-        <div class="form-group">
-            <label for="nombre">Nombre del Producto</label>
-            <input type="text" id="nombre" class="form-control" [(ngModel)]="producto.nombre" name="nombre" required>
+                    <div class="col-md-4">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <input type="text" id="categoria" class="form-control" [(ngModel)]="producto.categoria"
+                            name="categoria" placeholder="Categoría" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" id="precio" class="form-control" [(ngModel)]="producto.precio"
+                            name="precio" placeholder="Precio" required>
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-md-4">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" id="cantidad" class="form-control" [(ngModel)]="producto.cantidad"
+                            name="cantidad" placeholder="Cantidad" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="estado" class="form-label">Estado</label>
+                        <select id="estado" class="form-control" [(ngModel)]="producto.estado" name="estado">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                            <option value="agotado">Agotado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="imagen" class="form-label">Imagen</label>
+                        <input type="text" id="imagen" class="form-control" [(ngModel)]="producto.imagen" name="imagen"
+                            placeholder="URL de la imagen">
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-md-8">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea id="descripcion" class="form-control" [(ngModel)]="producto.descripcion"
+                            name="descripcion" placeholder="Descripción"></textarea>
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="!productoForm.form.valid">
+                            Actualizar Producto
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="categoria">Categoría</label>
-            <input type="text" id="categoria" class="form-control" [(ngModel)]="producto.categoria" name="categoria"
-                required>
-        </div>
-
-        <div class="form-group">
-            <label for="precio">Precio</label>
-            <input type="number" id="precio" class="form-control" [(ngModel)]="producto.precio" name="precio" required>
-        </div>
-
-        <div class="form-group">
-            <label for="cantidad">Cantidad</label>
-            <input type="number" id="cantidad" class="form-control" [(ngModel)]="producto.cantidad" name="cantidad"
-                required>
-        </div>
-
-        <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" class="form-control" [(ngModel)]="producto.descripcion"
-                name="descripcion"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="estado">Estado</label>
-            <select id="estado" class="form-control" [(ngModel)]="producto.estado" name="estado">
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-                <option value="agotado">Agotado</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="imagen">Imagen</label>
-            <input type="text" id="imagen" class="form-control" [(ngModel)]="producto.imagen" name="imagen"
-                placeholder="URL de la imagen">
-        </div>
-
-        <button type="submit" class="btn btn-primary" [disabled]="!productoForm.form.valid">
-            Actualizar Producto
-        </button>
-
-    </form>
+    </div>
 </div>
