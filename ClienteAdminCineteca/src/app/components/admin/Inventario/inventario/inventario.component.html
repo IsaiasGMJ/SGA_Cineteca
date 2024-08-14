@@ -1,53 +1,60 @@
 <div class="d-flex">
-    <app-admin-sidebar></app-admin-sidebar>
-    <div class="content p-4">
-        <router-outlet>
-<h1>inventario cada que se venda un platillo se descuenta de aqui de productos</h1>
-<div class="container my-5">
-    <h3 class="mb-4">Gestión de inventario</h3>
-    
-    <!-- Formulario para agregar o editar productos -->
-    <form class="mb-4">
-      <div class="row g-3">
-        <div class="col-md-4">
-          <label for="productName" class="form-label">Nombre del articulo</label>
-          <input type="text" class="form-control" id="productName" placeholder="Nombre del producto">
-        </div>
-        <div class="col-md-4">
-          <label for="productPrice" class="form-label">Precio</label>
-          <input type="number" class="form-control" id="productPrice" placeholder="Precio">
-        </div>
-        <div class="col-md-4 d-flex align-items-end">
-          <button type="submit" class="btn btn-primary w-100">Agregar/Editar articulo</button>
-        </div>
+  <app-admin-sidebar></app-admin-sidebar>
+  <div class="content p-4">
+    <router-outlet>
+      <h1>Inventario - Cada que se venda un platillo se descuenta de aquí de productos</h1>
+      <div class="container my-5">
+        <h3 class="mb-4">Gestión de inventario</h3>
+
+        <!-- Formulario para agregar o editar productos -->
+        <form class="mb-4">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="productName" class="form-label">Nombre del artículo</label>
+              <input type="text" class="form-control" id="productName" placeholder="Nombre del producto">
+            </div>
+            <div class="col-md-4">
+              <label for="productPrice" class="form-label">Precio</label>
+              <input type="number" class="form-control" id="productPrice" placeholder="Precio">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100">Agregar/Editar artículo</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Tabla para mostrar productos -->
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre del Producto</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Imagen</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Recorrer la lista de productos y mostrar cada uno -->
+            <tr *ngFor="let producto of productos; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.categoria.nombre }}</td>
+              <td>$ {{ producto.precio }}</td>
+              <td>{{ producto.descripcion }}</td>
+              <td>{{ producto.cantidad }}</td>
+              <td><img [src]="producto.imagen" alt="{{ producto.nombre }}" width="50" height="50"></td>
+              <td>
+                <button class="btn btn-primary btn-sm me-2">Editar</button>
+                <button class="btn btn-danger btn-sm">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </form>
-  
-    <!-- Tabla para mostrar productos -->
-    <table class="table table-bordered table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre del Producto</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Producto A</td>
-          <td>$10.00</td>
-          <td>
-            <button class="btn btn-primary btn-sm me-2">Editar</button>
-            <button class="btn btn-danger btn-sm">Eliminar</button>
-          </td>
-        </tr>
-        <!-- Agrega más filas según sea necesario -->
-      </tbody>
-    </table>
+    </router-outlet>
   </div>
-  
-      </router-outlet>
-    </div>
-  </div>
+</div>
