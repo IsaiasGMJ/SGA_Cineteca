@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule, RouterLink } from '@angular/router';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { RouterModule, Router, RouterLink } from '@angular/router';
 import { AdminSidebarComponent } from '../../admin-sidebar/admin-sidebar.component';
 import { ProductoService } from '../../../../services/producto.service';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { Producto } from '../../../../model/producto.model';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-inventario',
   standalone: true,
@@ -11,29 +16,58 @@ import { ProductoService } from '../../../../services/producto.service';
     RouterModule,
     CommonModule,
     RouterLink,
-    AdminSidebarComponent
+    AdminSidebarComponent,
+    MatPaginatorModule,
+    MatTableModule,
+    FormsModule 
   ],
   templateUrl: './inventario.component.html',
-  styleUrl: './inventario.component.css'
+  styleUrls: ['./inventario.component.css']
 })
-export class InventarioComponent {
-  productos: any[] = [];
+export class InventarioComponent implements AfterViewInit {
+  displayedColumns: string[] = ['id', 'nombre', 'categoria', 'precio', 'descripcion', 'cantidad', 'imagen', 'acciones'];
+  dataSource = new MatTableDataSource<any>(); // Ajusta el tipo según tu interfaz de producto
 
-  constructor(private productoService: ProductoService) { }
+  nuevoProducto: Producto = { nombre: '', categoria: '', precio: 0, cantidad: 0 };
+
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+
+  constructor(private productoService: ProductoService, private router: Router) { }
 
   ngOnInit(): void {
     this.obtenerProductos();
   }
 
-  // Obtener todos los productos
+  ngAfterViewInit(): void {
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+  }
+
+  editarProduto(id: string) {
+    this.router.navigate(['/inventario/editarProducto', id]);
+  }
+
   obtenerProductos(): void {
     this.productoService.obtenerProductos().subscribe(
       (response) => {
-        this.productos = response;
-        console.log('Productos cargados:', this.productos);
+        this.dataSource.data = response; // Asegúrate de que response sea del tipo adecuado
+        console.log('Productos cargados:', this.dataSource.data);
       },
       (error) => {
         console.error('Error al obtener productos:', error);
+      }
+    );
+  }
+
+  crearProducto(): void {
+    this.productoService.crearProducto(this.nuevoProducto).subscribe(
+      (response) => {
+        console.log('Producto creado:', response);
+        this.obtenerProductos(); // Actualiza la lista de productos después de crear uno nuevo
+      },
+      (error) => {
+        console.error('Error al crear producto:', error);
       }
     );
   }
