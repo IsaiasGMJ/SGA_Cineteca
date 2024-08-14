@@ -9,10 +9,9 @@ import { CierrecajaComponent } from './components/usuario/Caja/cierrecaja/cierre
 import { InformeVentasComponent } from './components/admin/Contabilidad/informe-ventas/informe-ventas.component';
 import { VentasComponent } from './components/admin/Contabilidad/ventas/ventas.component';
 import { InventarioComponent } from './components/admin/Inventario/inventario/inventario.component';
-import { UsuarioComponent } from './components/admin/usuario/usuario.component';
 import { AdminComponent } from './components/admin/admin/admin.component';
-import { CRUDproductosComponent } from './components/admin/crudproductos/crudproductos.component';
 import { CrudcategoriasComponent } from './components/admin/crudcategorias/crudcategorias.component';
+import { UsuarioComponent } from './components/admin/usuario/usuario.component';
 
 export const routes: Routes = [
     //rutas del auth
@@ -25,8 +24,6 @@ export const routes: Routes = [
     {path: 'informe-ventas', component:InformeVentasComponent },
     //Rutas inventario
     {path: 'inventario', component:InventarioComponent },
-    //RUTAS DE PRODUCTOS CRUD
-    {path: 'productos', component:CRUDproductosComponent },
     // Rutas de categorias
     { path: 'categorias', component: CrudcategoriasComponent},
     //Rutas Usuarios

@@ -1,4 +1,22 @@
-<app-navbar></app-navbar>
 <router-outlet>
-    <h1>Carrito Componente</h1>
+    <div class="sidebar" [class.active]="isSidebarActive">
+        <div class="sidebar-header">
+          <h3>Carrito de Compras</h3>
+          <button class="close-btn" (click)="toggleSidebar()">X</button>
+        </div>
+        <div class="cart-items">
+          <div *ngFor="let item of cartItems" class="cart-item">
+            <div class="item-info">
+              <h5>{{ item.nombre }}</h5>
+              <p>{{ item.cantidad }} x {{ item.precio | currency }}</p>
+            </div>
+            <button class="btn btn-danger btn-sm" (click)="removeItem(item)">Eliminar</button>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <p><strong>Total: </strong>{{ getTotal() | currency }}</p>
+          <button class="btn btn-success btn-block" (click)="proceedToCheckout()">Proceder al Pago</button>
+        </div>
+      </div>
+      
 </router-outlet>
