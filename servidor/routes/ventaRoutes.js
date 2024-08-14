@@ -6,7 +6,7 @@ const ventaController = require('../controllers/ventaController');
 // Rutas para el carrito
 router.post('/agregar', ventaController.agregarProducto);
 router.get('/ver/:userId', ventaController.verCarrito);
-router.delete('/eliminar', ventaController.eliminarProducto);
+router.delete('/eliminar/:id', ventaController.eliminarProducto);
 
 // Rutas para ventas
 router.post('/vender', ventaController.realizarVenta);

@@ -66,15 +66,31 @@ exports.verCarrito = async (req, res) => {
 // Eliminar producto del carrito
 exports.eliminarProducto = async (req, res) => {
     try {
-        const { userId, productId } = req.body;
+        const { id: carritoId } = req.params; // Obtener el ID del carrito desde los parámetros
+        const { productoId } = req.body; // Obtener el ID del producto desde el cuerpo de la solicitud
 
-        const carrito = await Cart.findOne({ user: userId });
+        // Verificar si el carrito existe
+        const carrito = await Cart.findById(carritoId);
         if (!carrito) {
             return res.status(404).json({ message: 'Carrito no encontrado' });
         }
 
-        // Filtrar el producto del carrito
-        carrito.items = carrito.items.filter(item => item.product.toString() !== productId);
+        // Buscar el índice del producto en el carrito
+        const itemIndex = carrito.items.findIndex(item => item.product.toString() === productoId);
+        if (itemIndex === -1) {
+            return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
+        }
+
+        // Verificar la cantidad del producto
+        const item = carrito.items[itemIndex];
+        if (item.quantity > 1) {
+            // Reducir la cantidad del producto en el carrito
+            item.quantity -= 1;
+        } else {
+            // Eliminar el producto del carrito si la cantidad es 1
+            carrito.items.splice(itemIndex, 1);
+        }
+
         await carrito.save();
         res.status(200).json(carrito);
     } catch (error) {
