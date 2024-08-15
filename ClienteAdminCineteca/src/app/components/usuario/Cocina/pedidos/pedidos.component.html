@@ -1,4 +1,18 @@
 <app-navbar></app-navbar>
 <router-outlet>
-    <h1>Pedidos </h1>
+    <h1>Pedidos </h1><h2>Pedidos Pendientes</h2>
+    <ul>
+      <li *ngFor="let pedido of pedidos">
+        <div>
+          <h3>Pedido ID: {{ pedido.id }}</h3>
+          <p>Productos:</p>
+          <ul>
+            <li *ngFor="let producto of pedido.productos">
+              {{ producto.nombre }} - Cantidad: {{ producto.cantidad }}
+            </li>
+          </ul>
+          <p>Total: {{ pedido.total | currency }}</p>
+        </div>
+      </li>
+    </ul>
 </router-outlet>

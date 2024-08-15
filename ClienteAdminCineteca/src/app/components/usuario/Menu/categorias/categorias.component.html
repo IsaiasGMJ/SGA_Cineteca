@@ -1,10 +1,9 @@
 <app-navbar></app-navbar>
 <router-outlet>
 <h1>Menu aqui van los productos</h1>
-<button class="btn btn-primary" style="display: center;" (click)="carrito.toggleSidebar()">Ver Carrito</button>
 <div class="grid-container">
-<div *ngFor="let producto of productos" class="card mb-3">
-    <div class="" style="cursor: pointer;" (click)="carrito.addItem(producto)">
+<div *ngFor="let categoria of categorias" class="card mb-3">
+    <div class="" style="cursor: pointer;" (click)="onCardClick(producto)">
         <img [src]="producto.imagen || 'https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp'" class="card-img-top" alt="{{ producto.nombre }}"/>
         <div class="card-body">
           <h5 class="card-title">{{ producto.nombre }}</h5>
@@ -12,6 +11,5 @@
         </div>
       </div>
 </div>
-</div> 
-<app-carrito #carrito></app-carrito>
+</div>
 </router-outlet>

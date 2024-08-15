@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, RouterLink } from '@angular/router';
+import { RouterModule, RouterLink, RouterOutlet } from '@angular/router';
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
 import { UsuarioService } from '../../../services/usuario.service';
 import { FormBuilder, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { FormBuilder, FormsModule, NgModel, ReactiveFormsModule } from '@angular
   selector: 'app-usuario',
   standalone: true,
   imports: [RouterModule,CommonModule,
-    RouterLink,AdminSidebarComponent,ReactiveFormsModule,FormsModule],
+    RouterLink,AdminSidebarComponent,ReactiveFormsModule,FormsModule,RouterOutlet],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css',
 })

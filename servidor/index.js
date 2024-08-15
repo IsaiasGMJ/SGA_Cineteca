@@ -41,6 +41,9 @@ app.use('/api/categorias', require('./routes/categoriaRoutes'));
 app.use('/api/usuarios', require('./routes/userRoutes'));
 app.use('/api/carrito', require('./routes/ventaRoutes'));
 
+const ventaRoutes = require('./routes/ventaRoutes');
+app.use('/api/ventas', ventaRoutes);
+
 // Ruta de ejemplo
 app.get('/', (req, res) => {
     res.send(`Hola mundo desde el puerto 4001 con certificación autoSSL ${PUERTO}`);
