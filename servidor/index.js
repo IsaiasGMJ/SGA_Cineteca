@@ -35,6 +35,7 @@ app.use(express.json());
 app.use(cors());
 
 // Rutas
+app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/productos', require('./routes/productoRoutes'));
 app.use('/api/categorias', require('./routes/categoriaRoutes'));
 app.use('/api/usuarios', require('./routes/userRoutes'));
