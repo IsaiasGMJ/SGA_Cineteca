@@ -12,6 +12,7 @@ import { InventarioComponent } from './components/admin/Inventario/inventario/in
 import { AdminComponent } from './components/admin/admin/admin.component';
 import { CrudcategoriasComponent } from './components/admin/crudcategorias/crudcategorias.component';
 import { UsuarioComponent } from './components/admin/usuario/usuario.component';
+import { ActualizarProductoComponentComponent } from './components/admin/Inventario/actualizar-producto-component/actualizar-producto-component.component';
 
 export const routes: Routes = [
     //rutas del auth
@@ -24,6 +25,9 @@ export const routes: Routes = [
     {path: 'informe-ventas', component:InformeVentasComponent },
     //Rutas inventario
     {path: 'inventario', component:InventarioComponent },
+    { path: 'inventario/editarProducto/:id', component: ActualizarProductoComponentComponent },
+    //RUTAS DE PRODUCTOS CRUD
+    // {path: 'productos', component: InventarioComponent },
     // Rutas de categorias
     { path: 'categorias', component: CrudcategoriasComponent},
     //Rutas Usuarios

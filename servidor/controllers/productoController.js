@@ -130,6 +130,7 @@ exports.actualizarProducto = async (req, res) => {
         res.status(500).send('Hubo un error');
     }
 };
+
 // Actualizar el estado de un producto
 exports.cambiarEstadoProducto = async (req, res) => {
     try {
