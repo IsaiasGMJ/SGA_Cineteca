@@ -9,6 +9,5 @@ router.post('/', userController.crearUsuario);
 router.put('/:id', userController.actualizarEmailYRole);
 router.put('/:id/password', userController.actualizarPassword);
 router.delete('/:id', userController.eliminarUsuario);
-router.post('/login', userController.iniciarSesion);
-router.post('register', userController.registrarUsuario)
+
 module.exports = router;
