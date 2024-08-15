@@ -1,0 +1,51 @@
+<div class="d-flex">
+    <app-admin-sidebar></app-admin-sidebar>
+    <div class="content p-4">
+        <h1>Inventario</h1>
+        <div class="container my-5">
+            <h3 class="mb-4">Gestión de inventario</h3>
+
+            <!--Formulario para agregar o editar productos-->
+            <form class="mb-4" (ngSubmit)="crearProducto()">
+                <h4 class="mb-4">Añadir un producto</h4>
+                <div class="row g-3">
+                    <!-- Campos del formulario -->
+                    <div class="col-md-4">
+                        <label for="productName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="productName" placeholder="Nombre del producto"
+                            [(ngModel)]="nuevoProducto.nombre" name="nombre" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="categoriProduct" class="form-label">Categoría</label>
+                        <select class="form-control" id="categoriProduct" [(ngModel)]="nuevoProducto.categoria" name="categoria"
+                            required>
+                            <option *ngFor="let categoria of categorias" [value]="categoria._id">{{ categoria.nombre }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="productPrice" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="productPrice" placeholder="Precio"
+                            [(ngModel)]="nuevoProducto.precio" name="precio" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="productQuantity" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control" id="productQuantity" placeholder="Cantidad"
+                            [(ngModel)]="nuevoProducto.cantidad" name="cantidad" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="productDescription" class="form-label">Descripción del artículo</label>
+                        <input type="text" class="form-control" id="productDescription" placeholder="Descripción para el producto"
+                            [(ngModel)]="nuevoProducto.descripcion" name="descripcion" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="productImage" class="form-label">Imagen</label>
+                        <input type="file" class="form-control" id="productImage" (change)="onFileSelected($event)">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Agregar producto</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -38,6 +38,7 @@ router.get('/:id', productoController.obtenerProducto);
 router.post('/', uploadProductos.single('imagen'), productoController.crearProducto);
 router.put('/:id', uploadProductos.single('imagen'), productoController.actualizarProducto);
 router.patch('/:id/estado', productoController.cambiarEstadoProducto);
-router.patch('/:id/stock', productoController.actualizarStockProducto);
+router.patch('/stock/:id', productoController.actualizarStockProducto);
+router.delete('/:id', productoController.eliminarProducto);
 
 module.exports = router;

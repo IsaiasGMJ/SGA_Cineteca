@@ -5,7 +5,7 @@ require('dotenv').config({ path: 'variables.env' });
 
 // Función para construir la URL completa de la imagen
 const asset = (path) => {
-    return `${process.env.BASE_URL || 'http://localhost:4000'}${path}`;
+    return `${process.env.BASE_URL}${path}`;
 };
 
 // Obtener un producto por ID
@@ -28,6 +28,7 @@ exports.obtenerProducto = async (req, res) => {
         res.status(500).send('Hubo un error');
     }
 };
+
 
 // Obtener todos los productos
 exports.obtenerProductos = async (req, res) => {
@@ -175,3 +176,18 @@ exports.actualizarStockProducto = async (req, res) => {
         res.status(500).send('Hubo un error');
     }
 };
+
+// Eliminar produto
+exports.eliminarProducto = async (req, res) => {
+    try {
+        let producto = await Producto.findById(req.params.id);
+        if (!producto) {
+            return res.status(404).json({ msg: 'No existe el producto' });
+        }
+        await Producto.findByIdAndDelete(req.params.id);
+        res.json({ msg: 'Producto eliminado con éxito' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Hubo un error');
+    }
+}; // fin de la función eliminarProducto
