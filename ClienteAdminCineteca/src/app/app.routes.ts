@@ -3,7 +3,6 @@ import { AdminComponent } from './components/admin/admin/admin.component';
 import { InformeVentasComponent } from './components/admin/Contabilidad/informe-ventas/informe-ventas.component';
 import { VentasComponent } from './components/admin/Contabilidad/ventas/ventas.component';
 import { CrudcategoriasComponent } from './components/admin/crudcategorias/crudcategorias.component';
-import { CRUDproductosComponent } from './components/admin/crudproductos/crudproductos.component';
 import { InventarioComponent } from './components/admin/Inventario/inventario/inventario.component';
 import { UsuarioComponent } from './components/admin/usuario/usuario.component';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -34,7 +33,6 @@ export const routes: Routes = [
     { path: 'inventario/crearProducto', component: CrearProductoComponent},
     { path: 'inventario/editarProducto/:id', component: ActualizarProductoComponent },
     //RUTAS DE PRODUCTOS CRUD
-    { path: 'productos', component: CRUDproductosComponent },
     // Rutas de categorias
     { path: 'categorias', component: CrudcategoriasComponent },
     //Rutas Usuarios
