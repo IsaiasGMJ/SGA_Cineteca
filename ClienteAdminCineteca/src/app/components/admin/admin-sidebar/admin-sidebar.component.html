@@ -21,11 +21,6 @@
             </a>
           </li>
           <li>
-            <a [routerLink]="['/productos']" class="nav-link link-dark">
-              <i class="fas fa-cog me-2"></i> Productos
-            </a>
-          </li>
-          <li>
             <a [routerLink]="['/menu']" class="nav-link link-dark">
               <i class="fas fa-cog me-2"></i> Menu
             </a>
@@ -37,10 +32,10 @@
             <strong>Opciones</strong>
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser">
-            <li><a class="dropdown-item" [routerLink]="['/admin']">Profile</a></li>
-            <li><a class="dropdown-item" [routerLink]="['/admin']">Settings</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/admin']">.</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/admin']">.</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" (click)="Logout()">Sign out</a></li>
+            <li><a class="dropdown-item" (click)="Logout()">Cerrar sesion</a></li>
           </ul>
         </div>
       </div>
