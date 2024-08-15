@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductoService } from '../../../../services/producto.service';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Producto } from '../../../../model/producto.model';
-
+import { CategoriaService } from '../../../../services/categoria.service';
+import { ProductoService } from '../../../../services/producto.service';
 import { AdminSidebarComponent } from '../../admin-sidebar/admin-sidebar.component';
 
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
 @Component({
-  selector: 'app-actualizar-producto-component',
+  selector: 'app-actualizar-producto',
   standalone: true,
   imports: [
     FormsModule,
@@ -19,13 +19,13 @@ import { CommonModule } from '@angular/common';
     RouterLink
   ],
   templateUrl: './actualizar-producto-component.component.html',
-  styleUrls: ['./actualizar-producto-component.component.css'] // Se corrigió 'styleUrl' a 'styleUrls'
+  styleUrls: ['./actualizar-producto-component.component.css']
 })
-export class ActualizarProductoComponentComponent implements OnInit { // Se añadió OnInit
+export class ActualizarProductoComponent implements OnInit {
   producto: Producto = {
     _id: '',
     nombre: '',
-    categoria: '',
+    categoria: '', // Asumiendo que `categoria` es un string. Si es un número, cambia esto a `0`.
     precio: 0,
     cantidad: 0,
     descripcion: '',
@@ -34,11 +34,16 @@ export class ActualizarProductoComponentComponent implements OnInit { // Se aña
     fechaCreacion: new Date()
   };
   idProducto!: string;
+  selectedImage?: File;
+  categorias: { id: string, nombre: string }[] = [];
 
   constructor(
     private productoService: ProductoService,
+    private categoriaService: CategoriaService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -48,8 +53,9 @@ export class ActualizarProductoComponentComponent implements OnInit { // Se aña
       this.obtenerProducto();
     } else {
       console.error('No se proporcionó un ID de producto en la URL.');
-      // Maneja el caso de error donde no se obtiene un ID de producto
     }
+
+    this.obtenerCategorias();
   }
 
   obtenerProducto() {
@@ -59,15 +65,56 @@ export class ActualizarProductoComponentComponent implements OnInit { // Se aña
       });
   }
 
+  obtenerCategorias() {
+    this.categoriaService.obtenerCategorias()
+      .subscribe(categorias => {
+        this.categorias = categorias;
+      });
+  }
+
+  actualizarCategoria(event: any) {
+    this.producto.categoria = event.target.value;
+  }
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+    }
+  }
+
   actualizarProducto() {
-    this.productoService.actualizarProducto(this.idProducto, this.producto) // Se pasa también el idProducto
-      .subscribe(
-        () => {
+    const formData = new FormData();
+    formData.append('nombre', this.producto.nombre || '');
+    formData.append('categoriaId', this.producto.categoria.toString()); // Asegúrate de que esto sea una cadena si `categoria` es una cadena
+    formData.append('precio', this.producto.precio ? this.producto.precio.toString() : '0');
+    formData.append('cantidad', this.producto.cantidad ? this.producto.cantidad.toString() : '0');
+    formData.append('descripcion', this.producto.descripcion || '');
+    formData.append('estado', this.producto.estado || '');
+
+    // Verifica si fechaCreacion es un objeto Date
+    if (this.producto.fechaCreacion instanceof Date) {
+      formData.append('fechaCreacion', this.producto.fechaCreacion.toISOString());
+    } else {
+      formData.append('fechaCreacion', new Date().toISOString());
+    }
+
+    if (this.selectedImage) {
+      formData.append('imagen', this.selectedImage, this.selectedImage.name);
+    } else {
+      formData.append('imagen', this.producto.imagen || '');
+    }
+
+    this.productoService.actualizarProducto(this.idProducto, formData)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Producto actualizado con éxito', 'Actualización Exitosa');
           this.router.navigate(['/inventario']);
         },
-        error => {
+        error: (error) => {
           console.error('Error al actualizar el producto:', error);
+          this.toastr.error('Error al actualizar el producto. Por favor, verifica los datos ingresados.', 'Error');
         }
-      );
+      });
   }
 }

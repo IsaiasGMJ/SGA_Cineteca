@@ -1,6 +1,6 @@
 // src/app/services/producto.service.ts
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Producto } from '../model/producto.model'; // Asegúrate de importar la interfaz
 
@@ -9,7 +9,7 @@ import { Producto } from '../model/producto.model'; // Asegúrate de importar la
 })
 export class ProductoService {
 
-  private apiUrl = 'https://localhost:4001/api/productos'; // Cambia esta URL a la correcta
+  private apiUrl = 'http://localhost:4000/api/productos'; // Cambia esta URL a la correcta
 
   constructor(private http: HttpClient) { }
 
@@ -23,28 +23,32 @@ export class ProductoService {
     return this.http.get<Producto[]>(this.apiUrl);
   }
 
-  // Crear un nuevo producto
-  crearProducto(producto: Producto): Observable<Producto> {
-    return this.http.post<Producto>(`${this.apiUrl}/`, producto);
+  // Crear un nuevo producto con FormData para manejar archivos
+  crearProducto(producto: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/`, producto);
   }
 
   // Actualizar un producto existente
-  actualizarProducto(idProducto: string, producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.apiUrl}/${producto._id}`, producto);
+  actualizarProducto(id: string, producto: FormData): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, producto); // Cambiado para actualizar un producto por ID
   }
 
   // Actualizar el estado de un producto
   cambiarEstadoProducto(id: string, estado: string): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/${id}`, { estado });
+    return this.http.put<any>(`${this.apiUrl}/${id}`, { estado });
   }
 
-  // Actualizar el stock de un producto
   actualizarStockProducto(id: string, cantidad: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/actualizar-stock/${id}`, { cantidad });
+    const body = { cantidad };
+    return this.http.patch<any>(`${this.apiUrl}/stock/${id}`, body);
   }
 
   // Eliminar un producto
   eliminarProducto(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
-}
+
+  // Obtener categorías
+  obtenerCategorias(): Observable<{ id: string, nombre: string }[]> {
+    return this.http.get<{ id: string, nombre: string }[]>(`${this.apiUrl}/categorias`);
+  }}
