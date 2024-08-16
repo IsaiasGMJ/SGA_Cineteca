@@ -66,6 +66,9 @@ export class InventarioComponent implements AfterViewInit {
     this.router.navigate(['inventario/crearProducto']);
   }
 
+  Categorias() {
+    this.router.navigate(['inventario/categorias']);
+  }
   editarProducto(id: string) {
     this.router.navigate(['/inventario/editarProducto', id]);
   }
