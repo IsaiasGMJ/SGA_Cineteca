@@ -14,29 +14,13 @@ import { CarritoComponent } from "../carrito/carrito.component";
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
-export class MenuComponent implements OnInit{
+export class MenuComponent implements OnInit {
   @ViewChild('carrito') carrito!: CarritoComponent;  // Referencia al carrito
   private apiUrl = 'http://localhost:4000/api/productos'; // Cambia esta URL según la configuración de tu backend
 
-  constructor(private http: HttpClient, private productoService: ProductoService) {}
+  productos: any[] = [];
 
-  productos: any[] = [
-    {
-      id: 1,
-      nombre: 'Producto 1',
-      descripcion: 'Descripción del producto 1',
-      precio: 100,
-      imagen: 'https://via.placeholder.com/150'
-    },
-    {
-      id: 2,
-      nombre: 'Producto 2',
-      descripcion: 'Descripción del producto 2',
-      precio: 200,
-      imagen: 'https://via.placeholder.com/150'
-    }
-    // Puedes agregar más productos aquí
-  ];
+  constructor(private http: HttpClient, private productoService: ProductoService) {}
 
   ngOnInit(): void {
     this.productoService.obtenerProductos().subscribe(
@@ -49,14 +33,11 @@ export class MenuComponent implements OnInit{
     );
   }
 
-  obtenerProductos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`);
-  }
-
-  obtenerProducto(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
-  }
   onCardClick(producto: any): void {
     this.carrito.addItem(producto);  // Agregar el producto al carrito
+  }
+
+  enviarPedido(): void {
+    this.carrito.proceedToCheckout();  // Llamar a la función enviarPedido() del carrito
   }
 }

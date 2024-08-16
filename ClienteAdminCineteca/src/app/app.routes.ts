@@ -18,11 +18,11 @@ import { CrearProductoComponent } from './components/admin/Inventario/crear-prod
 export const routes: Routes = [
 
     //rutas del auth
-    { path: '', redirectTo: 'inventario', pathMatch: 'full' },
+    { path: '', redirectTo: '/menu', pathMatch: 'full' },//regresar esta al login cuando expongamos
     { path: 'login', component: LoginComponent },
 
     //====================RUTAS DEL ADMIN=======================
-    { path: 'admin', component: AdminComponent },
+    { path: 'admin', redirectTo: 'inventario', pathMatch: 'full' },
 
     //Rutas contabilidad
     { path: 'ventas', component: VentasComponent },

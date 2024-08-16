@@ -99,38 +99,43 @@ exports.eliminarProducto = async (req, res) => {
 };
 
 // controllers/ventaController.js
-exports.realizarVenta = async (req, res) => {
-    try {
-        const { userId } = req.body;
+const mongoose = require('mongoose');
 
-        // Verificar si el carrito existe para el usuario
-        const carrito = await Cart.findOne({ user: userId }).populate('items.product');
-        if (!carrito || carrito.items.length === 0) {
+exports.realizarVenta = async (req, res) => {
+    console.log('Datos recibidos:', req.body);
+    try {
+        const { items, userId } = req.body;
+        
+        // Verificar si hay artículos en la solicitud
+        if (!items || items.length === 0) {
             return res.status(400).json({ message: 'El carrito está vacío' });
         }
 
-        // Calcular el total
+        // Calcular el total basado en los items recibidos
         const total = (await Promise.all(
-            carrito.items.map(async item => {
-                const producto = await Product.findById(item.product);
-                return producto.precio * item.quantity; // Cambié price a precio para que coincida con el modelo de Producto
+            items.map(async item => {
+                const producto = await Product.findById(item.productId);
+                return producto.precio * item.quantity;
             })
         )).reduce((acc, cur) => acc + cur, 0);
 
         // Crear la venta
         const venta = new Sale({
             user: userId,
-            items: carrito.items,
+            items: items.map(item => ({
+                product: item.productId,
+                quantity: item.quantity
+            })),
             total
         });
         await venta.save();
 
-        // Actualizar el inventario después de la venta
+        // Actualizar el inventario
         await Promise.all(
-            carrito.items.map(async item => {
-                const producto = await Product.findById(item.product);
+            items.map(async item => {
+                const producto = await Product.findById(item.productId);
                 producto.cantidad -= item.quantity;
-                if (producto.cantidad < 0) producto.cantidad = 0; // Para evitar cantidad negativa
+                if (producto.cantidad < 0) producto.cantidad = 0;
                 await producto.save();
             })
         );
@@ -143,6 +148,9 @@ exports.realizarVenta = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+
 
 // Obtener todas las ventas
 exports.obtenerVentas = async (req, res) => {
