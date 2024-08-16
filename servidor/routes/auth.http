@@ -1,0 +1,19 @@
+### Registro de Usuario
+POST https://localhost:4001/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "drogychael1",
+    "email": "prueba@gmail.com",
+    "password": "123456789",
+    "role": "user"
+}
+
+### Inicio de Sesión
+POST https://localhost:4001/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "drogychael@gmail.com",
+    "password": "123456789"
+}

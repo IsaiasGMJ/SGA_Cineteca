@@ -1,6 +1,7 @@
 ### Agregar un producto al carrito
 POST http://localhost:4000/api/carrito/agregar
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 {
     "userId": "66bbcea52f596d56a7786cb1",
@@ -11,35 +12,38 @@ Content-Type: application/json
 ### Ver el carrito de un usuario
 GET http://localhost:4000/api/carrito/ver/66bbcea52f596d56a7786cb1
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 ### Eliminar un producto del carrito
 DELETE http://localhost:4000/api/carrito/eliminar/66bc0cbe417efa48a7443e27
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 {
     "productoId": "66bafde43ba72ba9029f889e"
 }
 
+
 ### Realizar una venta
 POST http://localhost:4000/api/carrito/vender
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 {
-    "user": "66bbcea52f596d56a7786cb1",
-    "items": [
-        { 
-            "productId": "66bafde43ba72ba9029f889e",
-            "quantity": "1", 
-            "price": "19" 
-        }
-    ] 
+    "userId": "66bbcea52f596d56a7786cb1"
 }
+
+GET http://localhost:4000/api/carrito/ventas/66bbf25f417efa48a7443deb
+Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 
 ### Obtener todas las ventas
-GET http://localhost:4000/api/carrito/ventas
+GET https://localhost:4001/api/carrito/ventas
 Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmVkN2I5OThhM2ZmMWU2MTIyMjU5ZiIsImlhdCI6MTcyMzc4MzMyNywiZXhwIjoxNzIzNzg2OTI3fQ.Y-A1I3LmFpxiuqg7_jhvaEoOIJqk9StwKGkpnX1pYCY
 
 ### Obtener una venta por ID
 GET http://localhost:4000/api/carrito/ventas/66bbf25f417efa48a7443deb
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>

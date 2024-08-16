@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../middlewares/auth');
 const productoController = require('../controllers/productoController');
 const multer = require('multer');
 const path = require('path');
+
 
 // Configuración de Multer para productos
 const storageProductos = multer.diskStorage({
@@ -33,12 +35,12 @@ const uploadProductos = multer({
 });
 
 // Rutas para productos
-router.get('/', productoController.obtenerProductos);
-router.get('/:id', productoController.obtenerProducto);
-router.post('/', uploadProductos.single('imagen'), productoController.crearProducto);
-router.put('/:id', uploadProductos.single('imagen'), productoController.actualizarProducto);
-router.patch('/:id/estado', productoController.cambiarEstadoProducto);
-router.patch('/stock/:id', productoController.actualizarStockProducto);
-router.delete('/:id', productoController.eliminarProducto);
+router.get('/', verifyToken, productoController.obtenerProductos);
+router.get('/:id', verifyToken, productoController.obtenerProducto);
+router.post('/', verifyToken, uploadProductos.single('imagen'), productoController.crearProducto);
+router.put('/:id', verifyToken, uploadProductos.single('imagen'), productoController.actualizarProducto);
+router.patch('/:id/estado', verifyToken, productoController.cambiarEstadoProducto);
+router.patch('/stock/:id', verifyToken, productoController.actualizarStockProducto);
+router.delete('/:id', verifyToken, productoController.eliminarProducto);
 
 module.exports = router;
