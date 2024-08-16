@@ -18,7 +18,7 @@ import { CrearProductoComponent } from './components/admin/Inventario/crear-prod
 export const routes: Routes = [
 
     //rutas del auth
-    { path: '', redirectTo: 'inventario', pathMatch: 'full' },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
 
     //====================RUTAS DEL ADMIN=======================

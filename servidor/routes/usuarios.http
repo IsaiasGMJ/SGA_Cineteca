@@ -3,7 +3,6 @@ GET http://localhost:4000/api/usuarios
 Content-Type: application/json
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmVkN2I5OThhM2ZmMWU2MTIyMjU5ZiIsImlhdCI6MTcyMzc4MzMyNywiZXhwIjoxNzIzNzg2OTI3fQ.Y-A1I3LmFpxiuqg7_jhvaEoOIJqk9StwKGkpnX1pYCY
 
-
 ###
 
 ### Obtener un usuario por ID
