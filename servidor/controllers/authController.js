@@ -3,16 +3,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 
-
 // Inicio de sesión
 exports.iniciarSesion = async (req, res) => {
     try {
-        const { usuario, password } = req.body;
+        const { email, password } = req.body; // Cambiar 'usuario' a 'email'
 
         // Buscar usuario por email
-        const usu = await Usuario.findOne({ email: usuario });
+        const usu = await Usuario.findOne({ email: email }); // Asegúrate de que 'email' se usa correctamente
         if (!usu) {
-            return res.status(400).json({ message: "Usuario o contraseña incorrectos" });
+            return res.status(400).json({ message: "Usuario o contraseñaaaa incorrectos" });
         }
 
         // Verificar contraseña
@@ -36,13 +35,12 @@ exports.iniciarSesion = async (req, res) => {
     }
 };
 
-// Registro de usuario con JWT
 exports.registrarUsuario = async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
 
-        if (!username || !email || !password || !role) {
-            return res.status(400).json({ message: 'Todos los campos son requeridos' });
+        if (!email || !password || !role) { // username es opcional
+            return res.status(400).json({ message: 'Email, password y role son requeridos' });
         }
 
         const emailExistente = await Usuario.findOne({ email });

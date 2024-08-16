@@ -3,6 +3,7 @@ const router = express.Router();
 const categoriaController = require('../controllers/categoriaController');
 const multer = require('multer');
 const path = require('path');
+const verifyToken = require('../middlewares/auth');
 
 // Configuración de Multer para categorías
 const storageCategorias = multer.diskStorage({
@@ -33,9 +34,9 @@ const uploadCategorias = multer({
 });
 
 // Rutas para categorías
-router.get('/', categoriaController.obtenerCategorias);
-router.get('/:id', categoriaController.obtenerCategoria);
-router.post('/', uploadCategorias.single('imagen'), categoriaController.crearCategoria);
-router.put('/:id', uploadCategorias.single('imagen'), categoriaController.actualizarCategoria);
+router.get('/', verifyToken, categoriaController.obtenerCategorias);
+router.get('/:id', verifyToken, categoriaController.obtenerCategoria);
+router.post('/', verifyToken, uploadCategorias.single('imagen'), categoriaController.crearCategoria);
+router.put('/:id', verifyToken, uploadCategorias.single('imagen'), categoriaController.actualizarCategoria);
 
 module.exports = router;
