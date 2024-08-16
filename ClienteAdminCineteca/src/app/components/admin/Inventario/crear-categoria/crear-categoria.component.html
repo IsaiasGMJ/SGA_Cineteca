@@ -1,0 +1,24 @@
+<!-- src/app/components/crear-categoria/crear-categoria.component.html -->
+<div>
+    <app-admin-sidebar></app-admin-sidebar>
+    <form (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput [(ngModel)]="categoria.nombre" name="nombre" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Descripción</mat-label>
+            <input matInput [(ngModel)]="categoria.descripcion" name="descripcion">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Imagen</mat-label>
+            <input type="file" (change)="onFileChange($event)">
+            <img *ngIf="categoria.imagenUrl" [src]="categoria.imagenUrl" alt="Imagen seleccionada"
+                style="max-width: 200px;">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Crear Categoría</button>
+    </form>
+</div>
