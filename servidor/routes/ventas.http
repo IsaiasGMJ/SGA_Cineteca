@@ -47,3 +47,21 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmVmMDNlZDE4YmIyO
 GET http://localhost:4000/api/carrito/ventas/66bbf25f417efa48a7443deb
 Content-Type: application/json
 x-auth-token: <tu_token_aqui>
+
+###
+POST http://localhost:4000/api/carrito/vender/66bef03ed18bb297e1a7f860
+Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmVkN2I5OThhM2ZmMWU2MTIyMjU5ZiIsImlhdCI6MTcyMzgyMjk4NSwiZXhwIjoxNzIzODI2NTg1fQ.N78nYKoocVNmYKTvUoT6E7EJ_B4i8n3ul1-6SfaXQO4
+
+{
+  "items": [
+    {
+      "productId": "66bafde43ba72ba9029f889e",
+      "quantity": 2
+    },
+    {
+      "productId": "66bbedc22153fc5ac8b94dda",
+      "quantity": 1
+    }
+  ]
+}

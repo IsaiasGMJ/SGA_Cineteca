@@ -101,14 +101,23 @@ exports.eliminarProducto = async (req, res) => {
 // controllers/ventaController.js
 const mongoose = require('mongoose');
 
+// controllers/ventaController.js
+
 exports.realizarVenta = async (req, res) => {
     console.log('Datos recibidos:', req.body);
     try {
-        const { items, userId } = req.body;
-        
+        const { items } = req.body;
+        const { userId } = req.params; // Obtener userId desde la URL
+
         // Verificar si hay artículos en la solicitud
         if (!items || items.length === 0) {
             return res.status(400).json({ message: 'El carrito está vacío' });
+        }
+
+        // Verificar si el usuario existe
+        const usuario = await User.findById(userId);
+        if (!usuario) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
         // Calcular el total basado en los items recibidos
@@ -148,9 +157,6 @@ exports.realizarVenta = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-
-
 
 // Obtener todas las ventas
 exports.obtenerVentas = async (req, res) => {

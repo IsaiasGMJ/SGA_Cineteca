@@ -11,7 +11,7 @@ router.get('/ver/:userId', verifyToken, ventaController.verCarrito);
 router.delete('/eliminar/:id', verifyToken, ventaController.eliminarProducto);
 
 // Rutas para ventas
-router.post('/vender', verifyToken, ventaController.realizarVenta);
+router.post('/vender/:userId', verifyToken, ventaController.realizarVenta);
 router.get('/ventas', verifyToken, ventaController.obtenerVentas);
 router.get('/ventas/:id', verifyToken, ventaController.obtenerVentaPorId);
 
