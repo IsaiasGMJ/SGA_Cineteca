@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
   export class ContabilidadService {
-    private apiUrl = 'https://localhost:4001/api/carrito'; // Cambia esta URL a la correcta
+    private apiUrl = 'http://localhost:4000/api/carrito'; // Cambia esta URL a la correcta
 
     constructor(
       private http: HttpClient,

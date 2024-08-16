@@ -42,13 +42,14 @@ export class ProductoService {
 
   // Crear un nuevo producto con FormData para manejar archivos
   crearProducto(producto: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/`, producto, { headers: this.createHeaders() });
+    const headers = this.createHeaders().delete('Content-Type'); // Elimina el 'Content-Type' si usas FormData
+    return this.http.post<any>(`${this.apiUrl}/`, producto, { headers });
   }
-
-  // Actualizar un producto existente
+  
   actualizarProducto(id: string, producto: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, producto, { headers: this.createHeaders() });
-  }
+    const headers = this.createHeaders().delete('Content-Type'); // Elimina el 'Content-Type' si usas FormData
+    return this.http.put<any>(`${this.apiUrl}/${id}`, producto, { headers });
+  }  
 
   // Actualizar el estado de un producto
   cambiarEstadoProducto(id: string, estado: string): Observable<any> {
@@ -58,7 +59,7 @@ export class ProductoService {
   // Actualizar el stock de un producto
   actualizarStockProducto(id: string, cantidad: number): Observable<any> {
     const body = { cantidad };
-    return this.http.patch<any>(`${this.apiUrl}/stock / ${id}`, body, { headers: this.createHeaders() });
+    return this.http.patch<any>(`${this.apiUrl}/stock/${id}`, body, { headers: this.createHeaders() });
   }
 
   // Eliminar un producto

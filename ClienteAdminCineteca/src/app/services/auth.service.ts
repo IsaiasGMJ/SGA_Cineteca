@@ -9,7 +9,7 @@ import jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:4001/api/auth/login'; // URL actualizada para tu API
+  private apiUrl = 'http://localhost:4000/api/auth/login'; // URL actualizada para tu API
 
   constructor(private http: HttpClient, private router: Router) { }
 
