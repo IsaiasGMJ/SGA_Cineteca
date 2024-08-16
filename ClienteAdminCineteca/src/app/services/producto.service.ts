@@ -9,7 +9,7 @@ import { Producto } from '../model/producto.model'; // Asegúrate de importar la
 })
 export class ProductoService {
 
-  private apiUrl = 'http://172.16.100.152:4000/api/productos'; // Cambia esta URL a la correcta
+  private apiUrl = 'http://localhost:4000/api/productos'; // Cambia esta URL a la correcta
 
   constructor(private http: HttpClient) { }
 

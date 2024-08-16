@@ -2,15 +2,17 @@
 const express = require('express');
 const router = express.Router();
 const ventaController = require('../controllers/ventaController');
+const verifyToken = require('../middlewares/auth');
+
 
 // Rutas para el carrito
-router.post('/agregar', ventaController.agregarProducto);
-router.get('/ver/:userId', ventaController.verCarrito);
-router.delete('/eliminar/:id', ventaController.eliminarProducto);
+router.post('/agregar', verifyToken, ventaController.agregarProducto);
+router.get('/ver/:userId', verifyToken, ventaController.verCarrito);
+router.delete('/eliminar/:id', verifyToken, ventaController.eliminarProducto);
 
 // Rutas para ventas
-router.post('/vender', ventaController.realizarVenta);
-router.get('/ventas', ventaController.obtenerVentas);
-router.get('/ventas/:id', ventaController.obtenerVentaPorId);
+router.post('/vender', verifyToken, ventaController.realizarVenta);
+router.get('/ventas', verifyToken, ventaController.obtenerVentas);
+router.get('/ventas/:id', verifyToken, ventaController.obtenerVentaPorId);
 
 module.exports = router;

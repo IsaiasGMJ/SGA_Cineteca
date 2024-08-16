@@ -6,7 +6,10 @@ export interface VentaItem {
 
 export interface Venta {
     _id?: string;
-    user: string;  // ID del usuario
+    user: {
+        _id: string;
+        username: string;
+    }; 
     items: VentaItem[];
     total: number;
     date?: Date;

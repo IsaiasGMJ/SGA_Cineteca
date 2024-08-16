@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { JWT_SECRET } = process.env;z
+const { SECRETA } = process.env;
 
 const verifyToken = (req, res, next) => {
     const token = req.header('x-auth-token');  // Asegúrate de que el token se pasa en este header
@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
     }
     
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, SECRETA);
         req.user = decoded;
         next();
     } catch (err) {

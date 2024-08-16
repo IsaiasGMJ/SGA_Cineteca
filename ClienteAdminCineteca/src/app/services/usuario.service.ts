@@ -6,9 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'https://172.16.100.152:4001/api/usuarios'; // Cambia esta URL a la correcta
+  private apiUrl = 'https://localhost:4001/api/usuarios'; // Cambia esta URL a la correcta
 
   constructor(private http: HttpClient) {}
+
+  //Obtener un usario por id
+  getUsuario(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
 
   // Obtener todos los usuarios
   getUsuarios(): Observable<any[]> {
