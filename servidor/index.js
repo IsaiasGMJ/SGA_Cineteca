@@ -5,8 +5,12 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const https = require('https');
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(express.json());
+app.use(bodyParser.json());
+
 dotenv.config();
 
 // Conectar a la base de datos

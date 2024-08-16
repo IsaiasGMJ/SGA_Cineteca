@@ -22,7 +22,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
 
     //====================RUTAS DEL ADMIN=======================
-    { path: 'admin', component: AdminComponent },
+    { path: 'admin', redirectTo: 'inventario', pathMatch: 'full' },
 
     //Rutas contabilidad
     { path: 'ventas', component: VentasComponent },

@@ -1,20 +1,18 @@
 <router-outlet>
-    <div class="sidebar" [class.active]="isSidebarActive">
-        <div class="sidebar" [class.active]="isSidebarActive">
-            <h2>Carrito de Compras</h2>
-            <ul>
-              <li *ngFor="let item of cartItems">
-                <div>
-                  <span>{{ item.nombre }} ({{ item.cantidad }})</span>
-                  <span>{{ item.precio | currency }}</span>
-                  <button (click)="removeItem(item)">Eliminar</button>
-                </div>
-              </li>
-            </ul>
-            <div>
-              <strong>Total: {{ getTotal() | currency }}</strong>
-            </div>
-            <button class="btn btn-success" (click)="proceedToCheckout()">Comprar</button>
-          </div>
-      </div>
+  <div *ngIf="cartItems && cartItems.length > 0">
+    <h2>Tu Carrito</h2>
+    <ul>
+      <li *ngFor="let item of cartItems">
+        {{ item.nombre }} - {{ item.cantidad }} x {{ item.precio | currency }}
+        <button (click)="removeItem(item)">Eliminar</button>
+      </li>
+    </ul>
+    <p>Total: {{ getTotal() | currency }}</p>
+    <button (click)="enviarPedido()">Pagar</button>
+  </div>
+  
+  <!-- Mostrar mensaje si el carrito está vacío -->
+  <div *ngIf="cartItems.length === 0">
+    <p>El carrito está vacío.</p>
+  </div>
 </router-outlet>
