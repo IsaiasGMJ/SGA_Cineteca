@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
   private apiUrl = 'https://localhost:4001/api/auth/login'; // URL actualizada para tu API
 
   constructor(private http: HttpClient, private router: Router) { }
+
 
   // AuthService
   login(email: string, password: string): Observable<any> {
@@ -50,4 +52,6 @@ export class AuthService {
     console.error('Ocurrió un error:', error);
     return throwError(() => new Error('Error en la solicitud'));
   }
+  
 }
+

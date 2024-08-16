@@ -1,7 +1,10 @@
+// src/app/components/usuario/Menu/carrito/carrito.component.ts
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import {jwtDecode} from 'jwt-decode';
+import { CarritoService } from '../../../../services/carrito.service'; // Importar el servicio
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-carrito',
@@ -13,9 +16,12 @@ import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 export class CarritoComponent {
   cartItems: any[] = [];
   isSidebarActive: boolean = false;
-  private apiUrl = 'http://localhost:4000/api/carrito'; // Cambia la URL según tu configuración
+  private apiUrl = 'http://localhost:4000/api/carrito';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private carritoService: CarritoService,
+  private http: HttpClient
+) {} // Inyectar el servicio
 
   // Método para agregar un artículo al carrito
   addItem(item: any) {
@@ -43,39 +49,58 @@ export class CarritoComponent {
   }
 
   // Método para proceder al pago
-  proceedToCheckout() {
-    if (this.cartItems.length === 0) {
-      alert('No hay productos en el carrito.');
-      return;
-    }
-  
-    const userId = '66bbcea52f596d56a7786cb1'; // Aquí deberías obtener el userId dinámicamente según tu lógica de autenticación
-  
+  // src/app/components/usuario/Menu/carrito/carrito.component.ts
+// Método para proceder al pago
+proceedToCheckout() {
+  if (this.cartItems.length === 0) {
+    alert('No hay productos en el carrito.');
+    return;
+  }
+
+  const token = localStorage.getItem('token'); // Asegúrate de que este es el nombre correcto
+
+  if (!token) {
+    alert('No se encontró el token de autenticación.');
+    return;
+  }
+
+  try {
+    // Decodificar el token para obtener la ID del usuario
+    const decodedToken: any = jwtDecode(token);
+    const userId = decodedToken.userId; // Asegúrate de que esto coincide con la estructura de tu token
+
     const payload = {
-      userId: userId,
+      user: userId, // Cambiado de userId a user
       items: this.cartItems.map(item => ({
         productId: item._id,
-        quantity: item.cantidad,  // Se envía la cantidad real de cada producto
+        quantity: item.cantidad,
         price: item.precio
       }))
     };
-    
-    console.log('Contenido del carrito:', this.cartItems); // Verifica que el carrito tenga productos
+
+    const headers = new HttpHeaders().set('x-auth-token', token);
+
+    console.log('Contenido del carrito:', this.cartItems);
     console.log('Datos enviados:', payload);
-  
-    this.http.post(this.apiUrl + '/vender', payload).subscribe({
-      next: (response) => {
+
+    this.http.post(this.apiUrl + '/vender', payload, { headers }).subscribe({
+      next: (response: any) => {
         console.log('Venta realizada con éxito', response);
         alert('Compra realizada con éxito');
         this.cartItems = []; // Vaciar el carrito después de la compra
         this.toggleSidebar();
       },
-      error: (error) => {
+      error: (error: { error: { message: string; }; }) => {
         console.error('Error al realizar la compra', error);
         alert('Error al realizar la compra: ' + error.error.message);
       }
     });
+  } catch (err) {
+    console.error('Error al decodificar el token JWT', err);
+    alert('Error al procesar la autenticación.');
   }
+}
+
 
   // Método para enviar el pedido
   enviarPedido() {
