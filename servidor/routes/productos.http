@@ -1,81 +1,35 @@
 ### Obtener todos los usuarios
-GET https://localhost:4001/api/usuarios
+GET http://localhost:4001/api/productos
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>
+
+###
+GET http://localhost:4001/api/productos/66bbc64ec5d07458e5610223
+Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 ###
 
-### Obtener un usuario por ID
-GET http://localhost:4000/api/usuarios/66bbc64ec5d07458e5610223
+PATCH http://localhost:4001/api/productos/66bbcea52f596d56a7786cb1/estado
 Content-Type: application/json
-
-###
-
-### Crear un nuevo usuario
-POST http://localhost:4000/api/usuarios
-Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 {
-  "username": "nuevo_usuario",
-  "email": "usuario@example.com",
-  "password": "password123",
-  "role": "admin"
+  "estado": "inactivo"
 }
 
 ###
 
-### Actualizar email y role del usuario
-PUT http://localhost:4000/api/usuarios/66bbcea52f596d56a7786cb1/password
+PATCH http://localhost:4001/api/productos/66bbcea52f596d56a7786cb1/stock
 Content-Type: application/json
+x-auth-token: <tu_token_aqui>
 
 {
-  "email": "nuevo_email@example.com",
-  "role": "user"
+  "cantidad": 50
 }
 
-###
-
-### Actualizar solo la contraseña del usuario
-PUT http://localhost:4000/api/usuarios/66bbcea52f596d56a7786cb1/password
-Content-Type: application/json
-
-{
-  "password": "isaiasGMJ"
-}
 
 ###
-
-### Eliminar un usuario
-DELETE http://localhost:4000/api/usuarios/66bbcea52f596d56a7786cb1
+DELETE http://localhost:4001/api/productos/66bbcea52f596d56a7786cb1
 Content-Type: application/json
-
-###
-
-### Inicio de sesión
-POST http://localhost:4000/api/usuarios/login
-Content-Type: application/json
-
-{
-  "usuario": "usuario@example.com",
-  "password": "isaiasGMJ"
-}
-
-###
-
-### Registrar un nuevo usuario (sin JWT)
-POST http://localhost:3000/api/usuarios/registrar
-Content-Type: application/json
-
-{
-  "username": "nuevo_usuario",
-  "email": "usuario@example.com",
-  "password": "password123",
-  "role": "user"
-}
-
-###
-PATCH https://localhost:4001/api/productos/stock/66bafde43ba72ba9029f889e
-Content-Type: application/json
-
-{
-  "cantidad": 28
-}
+x-auth-token: <tu_token_aqui>

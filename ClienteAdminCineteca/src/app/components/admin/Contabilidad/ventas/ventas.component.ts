@@ -4,6 +4,7 @@ import { RouterModule, RouterLink } from '@angular/router';
 import { AdminSidebarComponent } from '../../admin-sidebar/admin-sidebar.component';
 import { Venta } from '../../../../model/venta.model';
 import { ContabilidadService } from '../../../../services/contabilidad.service';
+import { UsuarioService } from '../../../../services/usuario.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
@@ -19,7 +20,10 @@ export class VentasComponent implements OnInit {
   // Variables para la gráfica usando ApexCharts
   public chartOptions: any;
 
-  constructor(private contabilidadService: ContabilidadService) {
+  constructor(
+    private contabilidadService: ContabilidadService,
+    private usuarioService: UsuarioService
+  ) {
     this.chartOptions = {
       series: [],
       chart: {
