@@ -14,6 +14,9 @@ import { ConfirmarPedidoComponent } from './components/usuario/Menu/confirmar-pe
 import { MenuComponent } from './components/usuario/Menu/menu/menu.component';
 import { ActualizarProductoComponent } from './components/admin/Inventario/actualizar-producto-component/actualizar-producto-component.component';
 import { CrearProductoComponent } from './components/admin/Inventario/crear-producto/crear-producto.component';
+import { CategoriasComponent } from './components/admin/Inventario/categorias/categorias.component';
+import { CrearCategoriaComponent } from './components/admin/Inventario/crear-categoria/crear-categoria.component';
+import { EditarCategoriaComponent } from './components/admin/Inventario/editar-categoria/editar-categoria.component';
 
 export const routes: Routes = [
 
@@ -32,6 +35,9 @@ export const routes: Routes = [
     { path: 'inventario', component: InventarioComponent },
     { path: 'inventario/crearProducto', component: CrearProductoComponent},
     { path: 'inventario/editarProducto/:id', component: ActualizarProductoComponent },
+    { path: 'inventario/categorias', component: CategoriasComponent },
+    { path: 'inventario/categorias/crearCategoria', component: CrearCategoriaComponent},
+    { path: 'inventario/categorias/editarCategoria/:id', component: EditarCategoriaComponent},
     //RUTAS DE PRODUCTOS CRUD
     // Rutas de categorias
     { path: 'categorias', component: CrudcategoriasComponent },

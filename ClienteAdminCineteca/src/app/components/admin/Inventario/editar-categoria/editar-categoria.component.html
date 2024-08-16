@@ -1,0 +1,47 @@
+<div class="d-flex">
+    <app-admin-sidebar></app-admin-sidebar>
+    <div class="content p-4">
+        <router-outlet></router-outlet>
+        <h2>Gestión de Categorías</h2>
+        <div class="container my-5">
+            <h3 class="mb-4">Actualizar Categoría: {{ categoria.nombre }}</h3>
+
+            <form (ngSubmit)="actualizarCategoria()" #categoriaForm="ngForm" class="mb-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre de la Categoría</label>
+                        <input type="text" id="nombre" class="form-control" [(ngModel)]="categoria.nombre" name="nombre"
+                            placeholder="Nombre de la categoría" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea id="descripcion" class="form-control" [(ngModel)]="categoria.descripcion"
+                            name="descripcion" placeholder="Descripción"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="imagen" class="form-label">Imagen</label>
+                        <img [src]="categoria.imagen" *ngIf="categoria.imagen" alt="Imagen de la categoría"
+                            class="img-thumbnail">
+                        <input type="file" (change)="onFileChange($event)" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-md-6 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100" [disabled]="!categoriaForm.form.valid">
+                            Actualizar Categoría
+                        </button>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-end">
+                        <button type="button" (click)="cancelarEdicion()" class="btn btn-secondary w-100">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
