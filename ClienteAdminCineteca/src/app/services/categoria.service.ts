@@ -16,13 +16,19 @@ export class CategoriaService {
   ) { }
 
   // Método para crear los encabezados con el token
-  private createHeaders(): HttpHeaders {
+  private createHeaders(includeContentType: boolean = true): HttpHeaders {
     const token = localStorage.getItem('token');
     if (token) {
-      return new HttpHeaders({
-        // No es necesario especificar 'Content-Type' para FormData
-        'x-auth-token': token // Asegúrate de que el encabezado sea 'x-auth-token'
-      });
+      const headersConfig: { [header: string]: string | string[] } = {
+        'x-auth-token': token // Usa el encabezado 'x-auth-token'
+      };
+      
+      // Solo agregar 'Content-Type' si no se está usando FormData
+      if (includeContentType) {
+        headersConfig['Content-Type'] = 'application/json';
+      }
+
+      return new HttpHeaders(headersConfig);
     } else {
       console.error('Token no disponible');
       this.router.navigate(['/login']); // Redirige al login si no hay token
@@ -40,14 +46,14 @@ export class CategoriaService {
     return this.http.get<Categoria[]>(this.apiUrl, { headers: this.createHeaders() });
   }
 
-  // Crear una nueva categoría
+  // Crear una nueva categoría (FormData, sin 'Content-Type')
   crearCategoria(categoria: FormData): Observable<Categoria> {
-    return this.http.post<Categoria>(this.apiUrl, categoria, { headers: this.createHeaders() });
+    return this.http.post<Categoria>(this.apiUrl, categoria, { headers: this.createHeaders(false) });
   }
 
-  // Actualizar una categoría existente
+  // Actualizar una categoría existente (FormData, sin 'Content-Type')
   actualizarCategoria(id: string, categoria: FormData): Observable<Categoria> {
-    return this.http.put<Categoria>(`${this.apiUrl}/${id}`, categoria, { headers: this.createHeaders() });
+    return this.http.put<Categoria>(`${this.apiUrl}/${id}`, categoria, { headers: this.createHeaders(false) });
   }
 
   // Eliminar una categoría

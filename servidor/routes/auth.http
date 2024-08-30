@@ -3,8 +3,8 @@ POST https://localhost:4001/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "Gabriel Flores",
-    "email": "prueba@gmail.com",
+    "username": "Gabriel Flores Guzman",
+    "email": "cineteca@gmail.com",
     "password": "123456789",
     "role": "user"
 }
